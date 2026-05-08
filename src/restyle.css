@@ -632,3 +632,13 @@ html
     color: var(--text-color) !important;
     background-color: var(--background-color) !important;
 }
+
+.content p,
+.left-column > div:nth-child(1) > p:nth-child(1),
+div.Practice_Question_Body:nth-child(1) > p:nth-child(1) {
+    color: var(--text-color) !important;
+}
+
+div.answer-choice > label > img {
+    background-color: var(--background-color-alternate) !important;
+}
