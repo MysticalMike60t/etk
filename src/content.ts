@@ -1,5 +1,5 @@
 /**
- * Edgenuity Restyle - content script
+ * ETK - content script
  *
  * The bulk of styling is delivered by the manifest's `content_scripts.css`,
  * which the browser injects into every matching frame (top + iframes) at
@@ -11,13 +11,12 @@
  * The CSS source is fetched from the extension via a runtime URL once and
  * cached, then injected into shadow roots as they appear.
  */
+export {};
 
 declare const __TARGET__: "chrome" | "firefox";
 declare const __DEV__: boolean;
 
-// Both Chrome and Firefox MV3 expose `chrome.*`. We only need
-// `runtime.getURL` here, which is sync and identical on both.
-const STYLE_ID = "restyle-edgenuity";
+const STYLE_ID = "etk";
 const CSS_URL = chrome.runtime.getURL("restyle.css");
 
 let cssTextPromise: Promise<string> | null = null;
@@ -49,7 +48,6 @@ const propagateToShadowRoots = (node: Node): void => {
 
     if (el.shadowRoot) void injectIntoShadowRoot(el.shadowRoot);
 
-    // TreeWalker is faster than querySelectorAll('*') for finding shadow hosts.
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_ELEMENT);
     let current = walker.nextNode() as Element | null;
     while (current !== null) {
@@ -59,11 +57,7 @@ const propagateToShadowRoots = (node: Node): void => {
 };
 
 const start = (): void => {
-    // Initial sweep for shadow hosts that exist at script-start time.
     propagateToShadowRoots(document.documentElement);
-
-    // Watch for new shadow hosts added later. This observer is intentionally
-    // narrow: childList only, no attribute watching, so it is cheap on busy SPAs.
     const observer = new MutationObserver((mutations) => {
         for (const m of mutations) {
             for (const node of m.addedNodes) propagateToShadowRoots(node);
@@ -77,7 +71,7 @@ const start = (): void => {
 
     if (__DEV__) {
         console.info(
-            `[Edgenuity Restyle] active (target: ${__TARGET__}, frame: ${window.location.href})`
+            `[ETK] active (target: ${__TARGET__}, frame: ${window.location.href})`
         );
     }
 };
