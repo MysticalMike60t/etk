@@ -1,0 +1,634 @@
+:root {
+    --background-color: #333;
+    --background-color-alternate: #eee;
+    --background-color-secondary: rgb(35, 35, 35);
+    --background-color-secondary-alternate: #ddd;
+    --primary-color: #dc4e12;
+    --success-color-light: #8ee68e;
+    --success-color-light-hover: #85d685;
+    --success-color: #5cb85c;
+    --success-color-hover: #52a352;
+    --success-color-transparent: rgba(92, 184, 92, 0.2);
+    --success-color-transparent-hover: rgba(83, 163, 83, 0.2);
+    --info-color: #40a7db;
+    --border-color: rgb(65, 65, 65);
+    --border-color-lighter: rgb(85, 85, 85);
+    --text-color: white;
+    --text-color-alternate: black;
+    --border-radius: 2px;
+    --done-button-icon: url("https://images.vexels.com/media/users/3/157890/isolated/preview/4f2c005416b7f48b3d6d09c5c6763d87-check-mark-circle-icon.png");
+    --header-gif-b64: ;
+    --spanish-gif-b64: ;
+}
+
+* {
+    text-shadow: none !important;
+}
+body {
+    background: var(--background-color) !important;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+    color: var(--primary-color) !important;
+}
+
+.title-bar {
+    background: var(--background-color) !important;
+    color: var(--text-color) !important;
+}
+.title-bar,
+.title-bar * {
+    color: var(--text-color) !important;
+}
+
+.tutor,
+.tutor-button,
+.btn-tutor,
+[aria-label*="Tutor"],
+[title*="Tutor"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+[data-restyle-hidden="true"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+#btnEntryAudio,
+#btnExitAudio,
+#btnCheck,
+#submit,
+#nextQuestion,
+#saveAndExit {
+    background: var(--background-color) !important;
+    color: var(--text-color) !important;
+    border: none !important;
+    border-radius: 0 !important;
+}
+#btnEntryAudio {
+    outline: 1px solid var(--info-color) !important;
+}
+#btnEntryAudio:hover,
+#btnExitAudio:hover {
+    background: var(--background-color) !important;
+}
+#btnEntryAudio .icon-qb-audio1,
+#btnExitAudio .icon-qb-audio1 {
+    display: none;
+}
+#btnEntryAudio *,
+#btnExitAudio * {
+    text-shadow: none !important;
+}
+
+#btnCheck {
+    outline: 1px solid var(--success-color) !important;
+}
+#btnCheck .icon-qb-check1 {
+    display: none !important;
+}
+#btnCheck::after {
+    --size: 20px;
+    content: "";
+    width: var(--size);
+    height: var(--size);
+    background-image: var(--done-button-icon);
+    background-position: center;
+    background-size: contain;
+    position: absolute;
+    left: 4px;
+    top: 4px;
+}
+
+#submit {
+    outline: 1px solid var(--success-color) !important;
+}
+#nextQuestion {
+    background-image: none !important;
+    outline: 1px solid var(--border-color) !important;
+}
+#nextQuestion::after,
+#nextQuestion::before {
+    display: none !important;
+}
+#nextQuestion,
+#saveAndExit {
+    outline: none !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+#btnExitAudio {
+    outline: 1px solid var(--border-color) !important;
+    border: 0 solid transparent !important;
+}
+
+#frameAudioControls,
+.question-container,
+.content,
+#frameArea,
+.bottom-tray,
+.mainfoot,
+.activityActive,
+.Toolbar {
+    background: var(--background-color) !important;
+}
+
+.ui-tabs-tab {
+    background: var(--background-color) !important;
+    border: none !important;
+    outline: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+.ui-tabs-tab::before,
+.ui-tabs-tab::after {
+    display: none !important;
+}
+.ui-tabs-tab *,
+.footnav *,
+.Practice_Question_Body * {
+    color: var(--text-color) !important;
+    text-shadow: none !important;
+}
+
+.nav-icon,
+.FrameLeft a,
+.FrameRight a {
+    border: 1px solid var(--primary-color) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+.nav-icon.disabled {
+    border: 1px solid var(--border-color) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+.footnav .nav-icon {
+    margin-right: 20px !important;
+    margin-left: 20px !important;
+}
+
+.mainfoot {
+    box-shadow: none !important;
+    border-top: 1px solid var(--border-color) !important;
+}
+.mainhead {
+    background: var(--background-color) !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+.mainhead * {
+    border: none !important;
+}
+
+.FramesList li:not(.FrameCurrent, .FrameComplete, .FrameLeft, .FrameRight) a {
+    background-image: none !important;
+    background-color: var(--background-color) !important;
+    border: 1px solid var(--border-color) !important;
+}
+.FrameCurrent a {
+    background-image: none !important;
+    background-color: var(--primary-color) !important;
+    border: 1px solid var(--primary-color) !important;
+}
+.FrameComplete a {
+    background-image: none !important;
+    background-color: var(--background-color) !important;
+    border: 1px solid var(--primary-color) !important;
+}
+
+.vcplayer {
+    -webkit-box-shadow: none !important;
+}
+.vcplayer .controls {
+    border: 1px solid var(--background-color) !important;
+    background-image: none !important;
+    background-color: var(--background-color) !important;
+    outline: 1px solid var(--background-color) !important;
+}
+.vcplayer .controls li {
+    border: none !important;
+}
+#uid1_played {
+    background: var(--primary-color) !important;
+}
+
+.ui-tabs-nav {
+    background: var(--background-color-secondary) !important;
+    border: none !important;
+}
+.toolbar {
+    border: 1px solid var(--border-color) !important;
+}
+.toolbar li {
+    border: none !important;
+}
+
+.overlay-attempt {
+    box-shadow: none !important;
+}
+.overlay-attempt-primary-section *,
+.overlay-attempt-header {
+    border: none !important;
+}
+
+.lesson-pane-trigger {
+    border-radius: 0 !important;
+    border: 1px solid var(--border-color) !important;
+    border-right: none !important;
+    background: var(--background-color) !important;
+    box-shadow: none !important;
+}
+.lesson-pane-trigger,
+.toolbar {
+    display: none !important;
+}
+
+#home_video_container {
+    outline: 1px solid var(--border-color) !important;
+}
+.gradebar {
+    background: var(--success-color) !important;
+    border: 1px solid var(--success-color) !important;
+}
+.goRight,
+.goLeft {
+    border: none !important;
+    outline: none !important;
+}
+.ui-tabs-active {
+    background: var(--border-color) !important;
+    border-radius: 0 !important;
+}
+
+.content * {
+    color: var(--text-color) !important;
+}
+.head-nav .parent {
+    border: none !important;
+    outline: none !important;
+}
+.JQueryTabbify {
+    background: var(--background-color) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.ui-state-default {
+    outline: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: var(--background-color-secondary) !important;
+}
+.ui-state-active {
+    background: var(--background-color) !important;
+}
+.reading.pane-blue * {
+    color: black !important;
+}
+
+.Practice_Question_Body select {
+    background: var(--background-color) !important;
+    border: none !important;
+    outline: 1px solid var(--border-color-lighter) !important;
+    margin: 2px;
+}
+.Practice_Question_Body select * {
+    color: var(--text-color) !important;
+}
+
+.sbgTile {
+    background: var(--background-color) !important;
+    border: 1px solid var(--border-color-lighter) !important;
+    box-shadow: none !important;
+}
+.catLabel {
+    background: var(--background-color-secondary) !important;
+    border-bottom: 1px solid var(--border-color-lighter) !important;
+}
+.sbgColumn {
+    border: 1px solid var(--border-color-lighter) !important;
+}
+.leftColumn {
+    border: 1px solid var(--border-color) !important;
+}
+#frameAudioControls {
+    border-top: 1px solid var(--border-color) !important;
+}
+.sbgAlert {
+    background: var(--background-color) !important;
+}
+
+.matchColumnItem {
+    background: var(--background-color) !important;
+    border: 1px solid var(--border-color-lighter) !important;
+}
+.bottomSection,
+.matchLeftColumn,
+.matchRightColumn,
+.matchMiddleColumn {
+    background: var(--background-color) !important;
+}
+
+.Wirisformula {
+    background: white !important;
+    padding: 5px 10px !important;
+}
+
+input {
+    background: var(--background-color) !important;
+    border: 1px solid var(--border-color) !important;
+    outline: 1px solid var(--border-color) !important;
+    color: var(--text-color) !important;
+}
+
+.av-container .nav-bar,
+.av-container .nav-bar-review {
+    --padding: 5px;
+    padding-left: calc(var(--padding) * 2) !important;
+    padding-right: calc(var(--padding) * 2) !important;
+    padding-top: calc(var(--padding) / 2) !important;
+}
+
+p,
+.bottom-tray div,
+.icon-success5 {
+    color: var(--text-color) !important;
+}
+
+.Assessment_Main_Body_Content_Question
+    .Practice_Question_Body:has(.answer-choice .answer-choice-label img) {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.essay-prompt-condensed p {
+    color: var(--text-color) !important;
+}
+.data-container,
+.dragTile {
+    background: var(--background-color) !important;
+}
+.sortAlert {
+    background: var(--success-color) !important;
+}
+
+.QuestionTextArea {
+    background: var(--background-color) !important;
+    border: 1px solid var(--border-color) !important;
+    outline: none !important;
+}
+
+#notepad-title {
+    color: var(--text-color) !important;
+}
+#contentViewer p {
+    color: var(--text-color) !important;
+}
+#ps-form {
+    border: 1px solid var(--border-color) !important;
+}
+#ps-form,
+.powerspeakViewerSubmit,
+#contentViewer,
+.center-page {
+    background: var(--background-color) !important;
+}
+
+li {
+    color: var(--text-color);
+}
+
+.iFrameContents p,
+#instructionDiv,
+#stepDiv,
+#feedbackDiv {
+    color: var(--text-color-alternate) !important;
+}
+#instructionDiv {
+    padding: 10px 10px 0 !important;
+    max-height: 100%;
+}
+
+.Practice_Question_Body,
+.journal-question,
+.essay-prompt-expanded {
+    color: var(--text-color) !important;
+}
+
+.commentaryCell {
+    color: var(--text-color) !important;
+    background: var(--background-color) !important;
+}
+.commentaryCell .htmlContainer {
+    color: var(--text-color) !important;
+}
+
+tr th,
+tr td {
+    outline: 1px solid #666;
+}
+tr[bgcolor="#d9d9e5"] td,
+tr[bgcolor="#d9d9e5"] td *,
+tr[bgcolor="#d9d9e5"] .TableBody {
+    background-color: var(--background-color) !important;
+}
+
+.bordering tbody tr .top,
+.bordering tbody tr .topleft,
+.bordering tbody tr .topright,
+.bordering tbody tr .bottom,
+.bordering tbody tr .bottomleft,
+.bordering tbody tr .bottomright {
+    display: none !important;
+}
+
+td.advisorCell img {
+    display: none !important;
+}
+td.advisorCell {
+    background: var(--spanish-gif-b64);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.head-nav .nav.dave {
+    background: var(--header-gif-b64);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: transparent !important;
+}
+
+#tray {
+    outline: 1px solid var(--border-color) !important;
+    background: var(--background-color) !important;
+    color: var(--text-color) !important;
+}
+#tray * {
+    color: var(--text-color) !important;
+}
+
+.htmlContainer {
+    padding: 10px;
+}
+
+html body div.content div.left-column p img {
+    background-color: var(--background-color-alternate);
+}
+
+html body div div div#bottom-area div#frameAudioControls.filter-below {
+    border-top: 0 !important;
+}
+html
+    body
+    div
+    div
+    div#bottom-area
+    div#frameAudioControls.filter-below
+    table.navigation
+    tbody
+    tr
+    td.right {
+    padding: 5px 10px;
+    background-color: var(--background-color-secondary);
+}
+
+html
+    body
+    div
+    div
+    div#bottom-area
+    div#frameAudioControls.filter-below
+    table.navigation
+    tbody
+    tr
+    td.right
+    span#btnCheck.uibtn.uibtn-40.uibtn-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 5px 10px !important;
+    margin: 5px 10px !important;
+    border-radius: var(--border-radius) !important;
+    border: 0 solid !important;
+    outline: 1px solid var(--success-color) !important;
+    background-color: var(--success-color-transparent) !important;
+    color: transparent !important;
+    height: fit-content !important;
+    line-height: normal !important;
+    position: relative !important;
+    transition: 100ms ease-in-out all !important;
+}
+html
+    body
+    div
+    div
+    div#bottom-area
+    div#frameAudioControls.filter-below
+    table.navigation
+    tbody
+    tr
+    td.right
+    span#btnCheck.uibtn.uibtn-40.uibtn-icon:hover {
+    outline: 1px solid var(--success-color-hover) !important;
+    background-color: var(--success-color-transparent-hover) !important;
+}
+html
+    body
+    div
+    div
+    div#bottom-area
+    div#frameAudioControls.filter-below
+    table.navigation
+    tbody
+    tr
+    td.right
+    span#btnCheck.uibtn.uibtn-40.uibtn-icon
+    * {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    color: transparent !important;
+}
+html
+    body
+    div
+    div
+    div#bottom-area
+    div#frameAudioControls.filter-below
+    table.navigation
+    tbody
+    tr
+    td.right
+    span#btnCheck.uibtn.uibtn-40.uibtn-icon::after {
+    content: "DONE";
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 3px !important;
+    width: fit-content !important;
+    height: fit-content !important;
+    pointer-events: none;
+    background: transparent !important;
+    color: var(--success-color-light) !important;
+    font-weight: 300 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: 100ms ease-in-out all !important;
+}
+html
+    body
+    div
+    div
+    div#bottom-area
+    div#frameAudioControls.filter-below
+    table.navigation
+    tbody
+    tr
+    td.right
+    span#btnCheck.uibtn.uibtn-40.uibtn-icon:hover::after {
+    color: var(--success-color-light-hover) !important;
+}
+html
+    body
+    div
+    div
+    div#bottom-area
+    div#frameAudioControls.filter-below
+    table.navigation
+    tbody
+    tr
+    td.right
+    span#btnCheck.uibtn.uibtn-40.uibtn-icon
+    span.icon-qb-check1 {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    color: transparent !important;
+    margin-top: 0 !important;
+}
+
+.navigation > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 10px !important;
+    line-height: normal !important;
+}
+
+.matchAlert {
+    color: var(--text-color) !important;
+    background-color: var(--background-color) !important;
+}

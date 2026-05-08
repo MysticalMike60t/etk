@@ -1,0 +1,18 @@
+{
+    "project_name": "real-project-template",
+    "disable_ai": true,
+    "languages": {
+        "Git Attributes": {
+            "auto_indent": "none",
+            "indent_list_on_tab": false,
+            "auto_indent_on_paste": false,
+        },
+        "Make": {
+            "auto_indent": "preserve_indent",
+            "allow_rewrap": "in_comments",
+            "auto_indent_on_paste": false,
+            "colorize_brackets": true,
+            "document_folding_ranges": "on",
+        },
+    },
+}

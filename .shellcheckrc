@@ -1,0 +1,9 @@
+source-path=SCRIPTDIR
+shell=sh
+
+external-sources=true
+extended-analysis=true
+
+enable=quote-safe-variables
+enable=check-unassigned-uppercase
+enable=require-variable-braces

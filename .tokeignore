@@ -1,0 +1,29 @@
+# Legal
+LICENSE
+LICENSE.xml
+
+# Configs
+tsconfig.json
+rustfmt.toml
+pyproject.toml
+.python-version
+.gitattributes
+.gitconfig
+.gitignore
+.prettierignore
+.prettierrc
+.shellcheckrc
+.tokeirc
+.editorconfig
+## IDE
+.zed/settings.json
+.vscode/settings.json
+## GitHub
+.github/config.yml
+.github/rulset.json
+.github/ISSUE_TEMPLATE/config.yml
+
+CHANGELOG.md
+.git/
+
+# TODO: Copy all content from "final" .gitignore

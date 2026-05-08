@@ -1,0 +1,10 @@
+.gitattributes
+.gitconfig
+.gitignore
+LICENSE
+LICENSE.xml
+.python-version
+.*ignore
+.editorconfig
+
+# TODO: Copy all content from "final" .gitignore

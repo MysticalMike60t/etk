@@ -1,0 +1,95 @@
+{
+    "$schema": "https://www.schemastore.org/prettierrc.json",
+    "printWidth": 80,
+    "tabWidth": 4,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": false,
+    "quoteProps": "as-needed",
+    "jsxSingleQuote": false,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "arrowParens": "always",
+    "proseWrap": "preserve",
+    "htmlWhitespaceSensitivity": "css",
+    "endOfLine": "lf",
+    "embeddedLanguageFormatting": "auto",
+    "singleAttributePerLine": true,
+    "objectWrap": "preserve",
+    "checkIgnorePragma": true,
+    "insertPragma": false,
+    "requirePragma": false,
+    "vueIndentScriptAndStyle": true,
+    "overrides": [
+        {
+            "excludeFiles": ["settings.json"],
+            "files": [".prettierrc", "*.json"],
+            "options": {
+                "printWidth": 70,
+                "parser": "json",
+                "bracketSpacing": true,
+                "bracketSameLine": false,
+                "objectWrap": "preserve",
+                "trailingComma": "all",
+                "useTabs": false,
+                "tabWidth": 4
+            }
+        },
+        {
+            "files": [".zed/settings.json"],
+            "options": {
+                "printWidth": 70,
+                "parser": "jsonc",
+                "bracketSpacing": true,
+                "bracketSameLine": false,
+                "objectWrap": "preserve",
+                "trailingComma": "all",
+                "useTabs": false,
+                "tabWidth": 4
+            }
+        },
+        { "files": ["*.css"], "options": { "parser": "css" } },
+        { "files": ["*.scss"], "options": { "parser": "scss" } },
+        {
+            "excludeFiles": ["README.md"],
+            "files": ["*.md", "README", "SECURITY", "CODE_OF_CONDUCT"],
+            "options": { "parser": "markdown" }
+        },
+        {
+            "files": ["*.ts", "*.d.ts", "*.tsx", "*.d.tsx"],
+            "options": { "parser": "typescript" }
+        },
+        {
+            "files": ["*.js", "*.jsx", "*.cjs", "*.mjs"],
+            "options": { "parser": "babel" }
+        },
+        {
+            "files": ["*.html", "*.htm", "*.html5"],
+            "options": { "parser": "html" }
+        },
+        {
+            "files": ["*.html", "*.htm", "*.html5"],
+            "options": { "parser": "html" }
+        },
+        { "files": ["*.xml"], "options": { "parser": "xml" } },
+        { "files": ["*.java"], "options": { "parser": "java" } },
+        {
+            "files": [
+                "*.toml",
+                ".tokeirc",
+                ".shellcheckrc",
+                "pyproject.toml",
+                ".editorconfig"
+            ],
+            "options": { "parser": "toml" }
+        },
+        {
+            "files": ["README.md"],
+            "options": {
+                "parser": "markdown",
+                "checkIgnorePragma": true
+            }
+        }
+    ]
+}

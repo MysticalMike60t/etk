@@ -1,0 +1,19 @@
+[core]
+    autocrlf =                 false
+    repositoryformatversion =  0
+	filemode =                 false
+	bare =                     false
+	logallrefupdates =         true
+	editor =                   nvim
+
+[diff]
+    algorithm =                histogram
+
+[merge]
+    conflictstyle =            zdiff3
+
+[push]
+    autoSetupRemote =          true
+
+[pull]
+    rebase =                   true
