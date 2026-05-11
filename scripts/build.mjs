@@ -15,10 +15,8 @@ const targets = targetArg ? [targetArg] : ["chrome", "firefox"];
 
 /** @typedef {"chrome" | "firefox"} Target */
 
-const RESTYLE_MATCHES = ["https://r19.core.learn.edgenuity.com/*"];
-const TOOLBAR_MATCHES = [
-    "https://r19.core.learn.edgenuity.com/player/LTILogin/TryStartActivity*",
-];
+const RESTYLE_MATCHES = ["https://*.core.learn.edgenuity.com/*"];
+const TOOLBAR_MATCHES = ["https://*.core.learn.edgenuity.com/player/*"];
 
 /** @type {(target: Target) => Record<string, unknown>} */
 const buildManifest = (target) => {
@@ -37,9 +35,8 @@ const buildManifest = (target) => {
             {
                 matches: RESTYLE_MATCHES,
                 js: ["content.js"],
-                css: ["restyle.css"],
                 run_at: "document_start",
-                all_frames: true,
+                all_frames: false, // we walk iframes ourselves
                 match_about_blank: true,
             },
             {

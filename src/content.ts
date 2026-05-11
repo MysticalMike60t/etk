@@ -1,16 +1,16 @@
 /**
  * ETK - content script
  *
- * The bulk of styling is delivered by the manifest's `content_scripts.css`,
- * which the browser injects into every matching frame (top + iframes) at
- * document_start. This script handles two cases the manifest cannot:
+ * Edgenuity uses `document.domain = "edgenuity.com"` on both the parent
+ * (r19.core.learn.edgenuity.com) and the lesson iframe (media.edgenuity.com)
+ * to bridge their origins. This script exploits that bridge: from the parent
+ * frame, we can reach into iframe.contentDocument and inject <style> tags
+ * directly, the same way the original userscript did.
  *
- *   1. Shadow DOM roots — manifest CSS does not pierce open shadow roots.
- *   2. Re-injection — if the page mutates our injected style node away.
- *
- * The CSS source is fetched from the extension via a runtime URL once and
- * cached, then injected into shadow roots as they appear.
+ * Cross-origin iframes that don't opt into the bridge are silently skipped.
  */
+import overrides from "./overrides";
+
 export {};
 
 declare const __TARGET__: "chrome" | "firefox";
@@ -20,47 +20,132 @@ const STYLE_ID = "etk";
 const CSS_URL = chrome.runtime.getURL("restyle.css");
 
 let cssTextPromise: Promise<string> | null = null;
-
 const loadCss = (): Promise<string> => {
     cssTextPromise ??= fetch(CSS_URL).then((r) => r.text());
     return cssTextPromise;
 };
 
-const injectIntoShadowRoot = async (root: ShadowRoot): Promise<void> => {
-    if (root.getElementById(STYLE_ID)) return;
+/**
+ * Inject our <style> into a Document or ShadowRoot. Idempotent — if the
+ * style is already there, do nothing. If the page stripped or replaced it,
+ * re-insert.
+ */
+const injectInto = async (root: Document | ShadowRoot): Promise<void> => {
+    if (!root) return;
+    try {
+        const existing =
+            "getElementById" in root
+                ? root.getElementById(STYLE_ID)
+                : (root as ShadowRoot).querySelector(`#${STYLE_ID}`);
+        if (existing) return;
 
-    const css = await loadCss();
-    if (root.getElementById(STYLE_ID)) return; // race: another caller injected
+        const css = await loadCss();
+        const stillMissing =
+            "getElementById" in root
+                ? !root.getElementById(STYLE_ID)
+                : !(root as ShadowRoot).querySelector(`#${STYLE_ID}`);
+        if (!stillMissing) return;
 
-    const style = document.createElement("style");
-    style.id = STYLE_ID;
-    style.textContent = css;
-    root.appendChild(style);
+        const doc = (root as Document).createElement
+            ? (root as Document)
+            : ((root as ShadowRoot).ownerDocument ?? document);
+        const style = doc.createElement("style");
+        style.id = STYLE_ID;
+        style.textContent = css;
+
+        if ((root as Document).head) {
+            (root as Document).head.appendChild(style);
+        } else {
+            (root as Document).appendChild(style);
+        }
+
+        overrides();
+    } catch {
+        ({});
+    }
 };
 
 /**
- * Walk an element subtree and inject into any shadow roots found.
- * Only open shadow roots are reachable; closed ones are invisible by design.
+ * Walk the DOM tree starting from a root, injecting into:
+ *   - The root document itself (already passed in)
+ *   - Open shadow roots
+ *   - Same-origin iframes (which, thanks to document.domain bridging,
+ *     includes media.edgenuity.com from r19.core.learn.edgenuity.com)
  */
-const propagateToShadowRoots = (node: Node): void => {
-    if (node.nodeType !== Node.ELEMENT_NODE) return;
-    const el = node as Element;
+const walkAndInject = (root: Document): void => {
+    void injectInto(root);
 
-    if (el.shadowRoot) void injectIntoShadowRoot(el.shadowRoot);
+    let elements: NodeListOf<Element>;
+    try {
+        elements = root.querySelectorAll("*");
+    } catch {
+        return;
+    }
 
-    const walker = document.createTreeWalker(el, NodeFilter.SHOW_ELEMENT);
-    let current = walker.nextNode() as Element | null;
-    while (current !== null) {
-        if (current.shadowRoot) void injectIntoShadowRoot(current.shadowRoot);
-        current = walker.nextNode() as Element | null;
+    for (const el of elements) {
+        if (el.shadowRoot) void injectInto(el.shadowRoot);
+
+        if (el.tagName === "IFRAME") {
+            const iframe = el as HTMLIFrameElement;
+            try {
+                const iframeDoc = iframe.contentDocument;
+                if (iframeDoc) walkAndInject(iframeDoc);
+            } catch {
+                ({});
+            }
+            iframe.addEventListener(
+                "load",
+                () => {
+                    try {
+                        const iframeDoc = iframe.contentDocument;
+                        if (iframeDoc) walkAndInject(iframeDoc);
+                    } catch {
+                        ({});
+                    }
+                },
+                { once: false }
+            );
+        }
     }
 };
 
 const start = (): void => {
-    propagateToShadowRoots(document.documentElement);
+    walkAndInject(document);
     const observer = new MutationObserver((mutations) => {
         for (const m of mutations) {
-            for (const node of m.addedNodes) propagateToShadowRoots(node);
+            for (const node of m.addedNodes) {
+                if (node.nodeType !== Node.ELEMENT_NODE) continue;
+                const el = node as Element;
+
+                if (el.shadowRoot) void injectInto(el.shadowRoot);
+
+                if (el.tagName === "IFRAME") {
+                    const iframe = el as HTMLIFrameElement;
+                    iframe.addEventListener(
+                        "load",
+                        () => {
+                            try {
+                                const doc = iframe.contentDocument;
+                                if (doc) walkAndInject(doc);
+                            } catch {
+                                ({});
+                            }
+                        },
+                        { once: false }
+                    );
+                }
+                if (el.querySelectorAll) {
+                    el.querySelectorAll("iframe").forEach((iframe) => {
+                        try {
+                            const doc = (iframe as HTMLIFrameElement)
+                                .contentDocument;
+                            if (doc) walkAndInject(doc);
+                        } catch {
+                            ({});
+                        }
+                    });
+                }
+            }
         }
     });
 
@@ -68,6 +153,9 @@ const start = (): void => {
         childList: true,
         subtree: true,
     });
+    setTimeout(() => walkAndInject(document), 500);
+    setTimeout(() => walkAndInject(document), 2000);
+    setTimeout(() => walkAndInject(document), 5000);
 
     if (__DEV__) {
         console.info(

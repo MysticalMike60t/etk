@@ -67,9 +67,8 @@ const PALETTES: Record<
 };
 
 /**
- * Walks the document (and same-origin iframes) hiding invisible blocker
- * overlays. This is the JS-side complement to the CSS, for elements the
- * CSS can't catch reliably.
+ * Looks at the document (and same-origin iframes) hiding invisible blocker
+ * overlays.
  */
 const unblockScreen = (): number => {
     const KNOWN_BLOCKER_IDS = [
@@ -214,10 +213,7 @@ const injectStyles = (): void => {
       justify-content: center;
       flex-direction: column;
       gap: 5px;
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      top: ${offsetTop}px;
+      position: relative;
       z-index: 1200;
       padding: 5px;
       border-radius: 2px;
@@ -227,8 +223,7 @@ const injectStyles = (): void => {
     #${TOOLBAR_ID} > .etk-credit {
       color: rgb(100, 100, 100);
       font-size: 0.8em;
-      margin-top: -5px;
-      padding-bottom: 5px;
+      line-height: 1;
     }
     #${TOOLBAR_ID} > .etk-row {
       display: flex;
@@ -320,7 +315,9 @@ const build = (): void => {
         row.appendChild(btn);
     }
 
-    document.body.appendChild(bar);
+    document.querySelector("body > .mainhead > .course");
+
+    document.querySelector(".mainhead")?.appendChild(bar);
 };
 
 const start = (): void => {
