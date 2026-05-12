@@ -17,7 +17,7 @@
     --border-color-lighter: rgb(85, 85, 85);
     --text-color: white;
     --text-color-alternate: black;
-    --border-radius: 2px;
+    --border-radius: var(--border-radius);
     --done-button-icon: url("https://images.vexels.com/media/users/3/157890/isolated/preview/4f2c005416b7f48b3d6d09c5c6763d87-check-mark-circle-icon.png");
     --header-gif-b64: ;
     --spanish-gif-b64: ;
@@ -668,7 +668,7 @@ div.answer-choice > label > img,
 html body div.content div.left-column p img,
 .left-column > div:nth-child(1) > center:nth-child(2) > img:nth-child(1) {
     background-color: var(--background-color-image-alternate) !important;
-    border-radius: 2px !important;
+    border-radius: var(--border-radius) !important;
     border: none !important;
     outline: 1px solid var(--border-color) !important;
 }

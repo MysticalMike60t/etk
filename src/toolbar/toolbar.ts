@@ -20,9 +20,9 @@ const MSG_REQUEST = "etk-request";
 
 type Command = "hideBlocker" | "backFrame" | "nextFrame" | "checkFrame";
 
-let nextRequestId = 0;
-const sendCommand = (command: Command): void => {
-    const id = nextRequestId++;
+let nextRequestId: number = 0;
+const sendCommand: (command: Command) => void = (command: Command): void => {
+    const id: number = nextRequestId++;
     window.postMessage(
         { source: MSG_REQUEST, id, command },
         window.location.origin
@@ -70,8 +70,8 @@ const PALETTES: Record<
  * Looks at the document (and same-origin iframes) hiding invisible blocker
  * overlays.
  */
-const unblockScreen = (): number => {
-    const KNOWN_BLOCKER_IDS = [
+const unblockScreen: () => number = (): number => {
+    const KNOWN_BLOCKER_IDS: string[] = [
         "submitBlocker",
         "submitLoading",
         "invis-o-div",
@@ -79,36 +79,38 @@ const unblockScreen = (): number => {
         "invis_div",
     ];
     const KEEP = new Set([TOOLBAR_ID]);
-    let count = 0;
+    let count: number = 0;
 
-    const hide = (el: HTMLElement): void => {
+    const hide: (el: HTMLElement) => void = (el: HTMLElement): void => {
         el.style.display = "none";
         el.style.pointerEvents = "none";
         el.style.visibility = "hidden";
         count++;
     };
 
-    const sweep = (doc: Document): void => {
+    const sweep: (doc: Document) => void = (doc: Document): void => {
         for (const id of KNOWN_BLOCKER_IDS) {
-            const el = doc.getElementById(id);
+            const el: HTMLElement | null = doc.getElementById(id);
             if (el && !KEEP.has(el.id)) hide(el);
         }
 
         try {
-            doc.querySelectorAll<HTMLElement>("[id],[class]").forEach((el) => {
-                if (KEEP.has(el.id)) return;
-                const id = (el.id || "").toLowerCase();
-                const cls =
-                    typeof el.className === "string"
-                        ? el.className.toLowerCase()
-                        : "";
-                if (id.includes("invis") || cls.includes("invis")) hide(el);
-            });
+            doc.querySelectorAll<HTMLElement>("[id],[class]").forEach(
+                (el: HTMLElement): void => {
+                    if (KEEP.has(el.id)) return;
+                    const id: string = (el.id || "").toLowerCase();
+                    const cls: string =
+                        typeof el.className === "string"
+                            ? el.className.toLowerCase()
+                            : "";
+                    if (id.includes("invis") || cls.includes("invis")) hide(el);
+                }
+            );
         } catch {
             true;
         }
 
-        const SELECTORS = [
+        const SELECTORS: string[] = [
             "[id*='blocker']",
             "[id*='Blocker']",
             "[id*='submitBlock']",
@@ -117,63 +119,77 @@ const unblockScreen = (): number => {
         ];
         for (const sel of SELECTORS) {
             try {
-                doc.querySelectorAll<HTMLElement>(sel).forEach((el) => {
-                    if (KEEP.has(el.id)) return;
-                    hide(el);
-                });
+                doc.querySelectorAll<HTMLElement>(sel).forEach(
+                    (el: HTMLElement): void => {
+                        if (KEEP.has(el.id)) return;
+                        hide(el);
+                    }
+                );
             } catch {
                 true;
             }
         }
 
         try {
-            doc.querySelectorAll<HTMLElement>("div,span").forEach((el) => {
-                if (KEEP.has(el.id)) return;
-                const rect = el.getBoundingClientRect();
-                if (rect.width < 200 || rect.height < 200) return;
+            doc.querySelectorAll<HTMLElement>("div,span").forEach(
+                (el: HTMLElement): void => {
+                    if (KEEP.has(el.id)) return;
+                    const rect: DOMRect = el.getBoundingClientRect();
+                    if (rect.width < 200 || rect.height < 200) return;
 
-                const style = doc.defaultView?.getComputedStyle(el);
-                if (!style) return;
+                    const style: CSSStyleDeclaration | undefined =
+                        doc.defaultView?.getComputedStyle(el);
+                    if (!style) return;
 
-                const opacity = parseFloat(style.opacity);
-                const pointerEvents = style.pointerEvents;
-                if (
-                    (opacity < 0.05 || pointerEvents === "none") &&
-                    rect.width > 400 &&
-                    rect.height > 300
-                ) {
-                    el.style.pointerEvents = "none";
-                    el.style.display = "none";
-                    count++;
+                    const opacity: number = parseFloat(style.opacity);
+                    const pointerEvents: string = style.pointerEvents;
+                    if (
+                        (opacity < 0.05 || pointerEvents === "none") &&
+                        rect.width > 400 &&
+                        rect.height > 300
+                    ) {
+                        el.style.pointerEvents = "none";
+                        el.style.display = "none";
+                        count++;
+                    }
                 }
-            });
+            );
         } catch {
             true;
         }
     };
 
     sweep(document);
-    document.querySelectorAll<HTMLIFrameElement>("iframe").forEach((frame) => {
-        try {
-            if (frame.contentDocument) sweep(frame.contentDocument);
-        } catch {
-            true;
-        }
-    });
+    document
+        .querySelectorAll<HTMLIFrameElement>("iframe")
+        .forEach((frame: HTMLIFrameElement): void => {
+            try {
+                if (frame.contentDocument) sweep(frame.contentDocument);
+            } catch {
+                true;
+            }
+        });
 
     return count;
 };
 
-const injectStyles = (): void => {
+const injectStyles: () => void = (): void => {
     if (document.getElementById(STYLE_ID)) return;
 
-    const mainHead = document.querySelector<HTMLElement>(".mainhead");
-    const offsetTop = mainHead?.getBoundingClientRect().height ?? 0;
-
-    const buttonRules = (Object.keys(PALETTES) as ButtonSpec["variant"][])
-        .map((variant) => {
-            const p = PALETTES[variant];
-            return `
+    const buttonRules: string = (
+        Object.keys(PALETTES) as ButtonSpec["variant"][]
+    )
+        .map(
+            (
+                variant: "danger" | "warning" | "nav-orange" | "nav-green"
+            ): string => {
+                const p: {
+                    bg: string;
+                    bgHover: string;
+                    border: string;
+                    text: string;
+                } = PALETTES[variant];
+                return `
         #${TOOLBAR_ID} button[data-variant="${variant}"] {
           display: flex;
           align-items: center;
@@ -201,10 +217,11 @@ const injectStyles = (): void => {
           transform: translateY(2px);
         }
       `;
-        })
+            }
+        )
         .join("\n");
 
-    const style = document.createElement("style");
+    const style: HTMLStyleElement = document.createElement("style");
     style.id = STYLE_ID;
     style.textContent = `
     #${TOOLBAR_ID} {
@@ -237,20 +254,20 @@ const injectStyles = (): void => {
     document.head.appendChild(style);
 };
 
-const build = (): void => {
+const build: () => void = (): void => {
     if (document.getElementById(TOOLBAR_ID)) return;
 
     injectStyles();
 
-    const bar = document.createElement("div");
+    const bar: HTMLDivElement = document.createElement("div");
     bar.id = TOOLBAR_ID;
 
-    const credit = document.createElement("address");
+    const credit: HTMLElement = document.createElement("address");
     credit.className = "etk-credit";
     credit.textContent = "Made by: Caden Finkelstein";
     bar.appendChild(credit);
 
-    const row = document.createElement("div");
+    const row: HTMLDivElement = document.createElement("div");
     row.className = "etk-row";
     bar.appendChild(row);
 
@@ -259,9 +276,9 @@ const build = (): void => {
             label: "Unblock Screen",
             id: "btn-unblock",
             variant: "danger",
-            onClick: () => {
+            onClick: (): void => {
                 sendCommand("hideBlocker");
-                const n = unblockScreen();
+                const n: number = unblockScreen();
                 console.info(`[ETK] Unblocked ${n} element(s)`);
             },
         },
@@ -269,19 +286,19 @@ const build = (): void => {
             label: "Previous Frame",
             id: "btn-prev-frame",
             variant: "warning",
-            onClick: () => sendCommand("backFrame"),
+            onClick: (): void => sendCommand("backFrame"),
         },
         {
             label: "Next Frame",
             id: "btn-next-frame",
             variant: "warning",
-            onClick: () => sendCommand("nextFrame"),
+            onClick: (): void => sendCommand("nextFrame"),
         },
         {
             label: "Previous Assignment",
             id: "btn-prev-assignment",
             variant: "nav-orange",
-            onClick: () => {
+            onClick: (): void => {
                 document.querySelector<HTMLElement>(".footnav.goLeft")?.click();
             },
         },
@@ -289,7 +306,7 @@ const build = (): void => {
             label: "Next Assignment",
             id: "btn-next-assignment",
             variant: "nav-orange",
-            onClick: () => {
+            onClick: (): void => {
                 document
                     .querySelector<HTMLElement>(".footnav.goRight")
                     ?.click();
@@ -299,28 +316,28 @@ const build = (): void => {
             label: "Check Frame",
             id: "btn-check-frame",
             variant: "nav-green",
-            onClick: () => sendCommand("checkFrame"),
+            onClick: (): void => sendCommand("checkFrame"),
         },
     ];
 
     for (const spec of buttons) {
-        const btn = document.createElement("button");
+        const btn: HTMLButtonElement = document.createElement("button");
         btn.id = `etk-${spec.id}`;
         btn.dataset["variant"] = spec.variant;
         btn.type = "button";
-        const span = document.createElement("span");
+        const span: HTMLSpanElement = document.createElement("span");
         span.textContent = spec.label;
         btn.appendChild(span);
         btn.addEventListener("click", spec.onClick);
         row.appendChild(btn);
     }
 
-    document.querySelector("body > .mainhead > .course");
+    document.querySelector<HTMLElement>("body > .mainhead > .course");
 
-    document.querySelector(".mainhead")?.appendChild(bar);
+    document.querySelector<HTMLElement>(".mainhead")?.appendChild(bar);
 };
 
-const start = (): void => {
+const start: () => void = (): void => {
     if (window.self !== window.top) return;
     build();
 };

@@ -17,39 +17,41 @@ declare const __TARGET__: "chrome" | "firefox";
 declare const __DEV__: boolean;
 
 const STYLE_ID = "etk";
-const CSS_URL = chrome.runtime.getURL("restyle.css");
+const CSS_URL: string = chrome.runtime.getURL("styles/restyle.css");
 
 let cssTextPromise: Promise<string> | null = null;
-const loadCss = (): Promise<string> => {
-    cssTextPromise ??= fetch(CSS_URL).then((r) => r.text());
+const loadCss: () => Promise<string> = (): Promise<string> => {
+    cssTextPromise ??= fetch(CSS_URL).then(
+        (r: Response): Promise<string> => r.text()
+    );
     return cssTextPromise;
 };
 
 /**
- * Inject our <style> into a Document or ShadowRoot. Idempotent — if the
- * style is already there, do nothing. If the page stripped or replaced it,
- * re-insert.
+ * Inject <style>
  */
-const injectInto = async (root: Document | ShadowRoot): Promise<void> => {
+const injectInto: (root: Document | ShadowRoot) => Promise<void> = async (
+    root: Document | ShadowRoot
+): Promise<void> => {
     if (!root) return;
     try {
-        const existing =
+        const existing: Element | null =
             "getElementById" in root
                 ? root.getElementById(STYLE_ID)
                 : (root as ShadowRoot).querySelector(`#${STYLE_ID}`);
         if (existing) return;
 
-        const css = await loadCss();
-        const stillMissing =
+        const css: string = await loadCss();
+        const stillMissing: boolean =
             "getElementById" in root
                 ? !root.getElementById(STYLE_ID)
                 : !(root as ShadowRoot).querySelector(`#${STYLE_ID}`);
         if (!stillMissing) return;
 
-        const doc = (root as Document).createElement
+        const doc: Document = (root as Document).createElement
             ? (root as Document)
             : ((root as ShadowRoot).ownerDocument ?? document);
-        const style = doc.createElement("style");
+        const style: HTMLStyleElement = doc.createElement("style");
         style.id = STYLE_ID;
         style.textContent = css;
 
@@ -59,20 +61,16 @@ const injectInto = async (root: Document | ShadowRoot): Promise<void> => {
             (root as Document).appendChild(style);
         }
 
-        overrides();
+        overrides.entry();
     } catch {
         ({});
     }
 };
 
 /**
- * Walk the DOM tree starting from a root, injecting into:
- *   - The root document itself (already passed in)
- *   - Open shadow roots
- *   - Same-origin iframes (which, thanks to document.domain bridging,
- *     includes media.edgenuity.com from r19.core.learn.edgenuity.com)
+ * Walk and inject
  */
-const walkAndInject = (root: Document): void => {
+const walkAndInject: (root: Document) => void = (root: Document): void => {
     void injectInto(root);
 
     let elements: NodeListOf<Element>;
@@ -88,16 +86,17 @@ const walkAndInject = (root: Document): void => {
         if (el.tagName === "IFRAME") {
             const iframe = el as HTMLIFrameElement;
             try {
-                const iframeDoc = iframe.contentDocument;
+                const iframeDoc: Document | null = iframe.contentDocument;
                 if (iframeDoc) walkAndInject(iframeDoc);
             } catch {
                 ({});
             }
             iframe.addEventListener(
                 "load",
-                () => {
+                (): void => {
                     try {
-                        const iframeDoc = iframe.contentDocument;
+                        const iframeDoc: Document | null =
+                            iframe.contentDocument;
                         if (iframeDoc) walkAndInject(iframeDoc);
                     } catch {
                         ({});
@@ -109,53 +108,59 @@ const walkAndInject = (root: Document): void => {
     }
 };
 
-const start = (): void => {
+const start: () => void = (): void => {
     walkAndInject(document);
-    const observer = new MutationObserver((mutations) => {
-        for (const m of mutations) {
-            for (const node of m.addedNodes) {
-                if (node.nodeType !== Node.ELEMENT_NODE) continue;
-                const el = node as Element;
+    const observer = new MutationObserver(
+        (mutations: MutationRecord[]): void => {
+            for (const m of mutations) {
+                for (const node of m.addedNodes) {
+                    if (node.nodeType !== Node.ELEMENT_NODE) continue;
+                    const el = node as Element;
 
-                if (el.shadowRoot) void injectInto(el.shadowRoot);
+                    if (el.shadowRoot) void injectInto(el.shadowRoot);
 
-                if (el.tagName === "IFRAME") {
-                    const iframe = el as HTMLIFrameElement;
-                    iframe.addEventListener(
-                        "load",
-                        () => {
-                            try {
-                                const doc = iframe.contentDocument;
-                                if (doc) walkAndInject(doc);
-                            } catch {
-                                ({});
+                    if (el.tagName === "IFRAME") {
+                        const iframe = el as HTMLIFrameElement;
+                        iframe.addEventListener(
+                            "load",
+                            (): void => {
+                                try {
+                                    const doc: Document | null =
+                                        iframe.contentDocument;
+                                    if (doc) walkAndInject(doc);
+                                } catch {
+                                    ({});
+                                }
+                            },
+                            { once: false }
+                        );
+                    }
+                    if (el.querySelectorAll) {
+                        el.querySelectorAll("iframe").forEach(
+                            (iframe: HTMLIFrameElement): void => {
+                                try {
+                                    const doc: Document | null = (
+                                        iframe as HTMLIFrameElement
+                                    ).contentDocument;
+                                    if (doc) walkAndInject(doc);
+                                } catch {
+                                    ({});
+                                }
                             }
-                        },
-                        { once: false }
-                    );
-                }
-                if (el.querySelectorAll) {
-                    el.querySelectorAll("iframe").forEach((iframe) => {
-                        try {
-                            const doc = (iframe as HTMLIFrameElement)
-                                .contentDocument;
-                            if (doc) walkAndInject(doc);
-                        } catch {
-                            ({});
-                        }
-                    });
+                        );
+                    }
                 }
             }
         }
-    });
+    );
 
     observer.observe(document.documentElement, {
         childList: true,
         subtree: true,
     });
-    setTimeout(() => walkAndInject(document), 500);
-    setTimeout(() => walkAndInject(document), 2000);
-    setTimeout(() => walkAndInject(document), 5000);
+    setTimeout((): void => walkAndInject(document), 500);
+    setTimeout((): void => walkAndInject(document), 2000);
+    setTimeout((): void => walkAndInject(document), 5000);
 
     if (__DEV__) {
         console.info(

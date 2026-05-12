@@ -51,12 +51,13 @@ interface ResponseMessage {
     error?: string;
 }
 
-(() => {
+((): void => {
     try {
         const proto = Element.prototype as Element & { __etkPatched?: boolean };
         if (!proto.__etkPatched) {
             proto.__etkPatched = true;
-            const original = proto.attachShadow;
+            const original: (init: ShadowRootInit) => ShadowRoot =
+                proto.attachShadow;
             proto.attachShadow = function (init: ShadowRootInit): ShadowRoot {
                 return original.call(this, { ...init, mode: "open" });
             };
@@ -64,7 +65,7 @@ interface ResponseMessage {
     } catch {
         true;
     }
-    const getApi = (): EdgenuityAPI | null => {
+    const getApi: () => EdgenuityAPI | null = (): EdgenuityAPI | null => {
         const frame = document.getElementById(
             "stageFrame"
         ) as HTMLIFrameElement | null;
@@ -73,8 +74,8 @@ interface ResponseMessage {
         return win?.API ?? null;
     };
 
-    const dispatch = (command: Command): void => {
-        const api = getApi();
+    const dispatch: (command: Command) => void = (command: Command): void => {
+        const api: EdgenuityAPI | null = getApi();
         switch (command) {
             case "hideBlocker":
                 api?.HideBlocker?.();
@@ -93,7 +94,7 @@ interface ResponseMessage {
         }
     };
 
-    window.addEventListener("message", (event) => {
+    window.addEventListener("message", (event: MessageEvent<unknown>): void => {
         if (event.source !== window) return;
         const data = event.data as Partial<RequestMessage> | null;
         if (!data || data.source !== MSG_REQUEST) return;
@@ -101,7 +102,7 @@ interface ResponseMessage {
         const { id, command } = data;
         if (typeof id !== "number" || !command) return;
 
-        let ok = true;
+        let ok: boolean = true;
         let error: string | undefined;
         try {
             dispatch(command);

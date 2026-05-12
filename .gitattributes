@@ -1,15 +1,15 @@
-# Attribute Definitions
-## Default
+# --- Attribute Definitions -------------------------------
+## --- Default --------------------------------------------
 [attr]default-eol              eol=lf
 [attr]default                  default-eol diff merge text=auto -export-ignore
 
-## Encoding
+## --- Encoding -------------------------------------------
 ## INFO: Legacy encoding is used to guarantee critical files are readable.
 ## INFO: But, Legacy Encoding can also be used for files that won't use more than the 128 characters.
 [attr]legacy-encoding          working-tree-encoding=US-ASCII
 [attr]default-encoding         working-tree-encoding=UTF-8
 
-## GitHub Linguist - [Linguist Repository](https://github.com/github-linguist/linguist)
+## --- GitHub Linguist - [Linguist Repository](https://github.com/github-linguist/linguist)
 [attr]detectable               linguist-detectable -linguist-generated -linguist-vendored
 [attr]undetectable            -linguist-detectable linguist-vendored
 [attr]documentation            linguist-documentation -linguist-generated -linguist-vendored
@@ -20,7 +20,7 @@
 [attr]hidden                   linguist-vendored -linguist-detectable
 [attr]exclude-stats            linguist-vendored -linguist-documentation
 
-## Presets
+## --- Presets --------------------------------------------
 [attr]normal                   default-eol text detectable
 [attr]my-code                  normal
 [attr]third-party              hidden
@@ -28,11 +28,11 @@
 [attr]binary-ignore            export-ignore -diff -merge -text -linguist-detectable
 [attr]non-human-readable       binary-ignore -eol
 
-# General Type Declarations
-## Handle all filetypes first
+# --- General Type Declarations ---------------------------
+## --- Handle all filetypes first -------------------------
 *                              default default-encoding
 
-## Binary files
+## --- Binary files ---------------------------------------
 *.jpg                          non-human-readable
 *.jpeg                         non-human-readable
 *.png                          non-human-readable
@@ -47,17 +47,22 @@
 *.deb                          non-human-readable
 *.rpm                          non-human-readable
 
-# Language Assignments
-## Repository configuration/documentation files
+# --- Language Assignments --------------------------------
+## --- Repository configuration/documentation files -------
 *.gitattributes                my-code legacy-encoding   linguist-language=gitattributes
 .gitignore                     my-code legacy-encoding   linguist-language=gitignore
 LICENSE.xml                    my-code default-encoding  linguist-language=xml
 LICENSE                        my-code default-encoding
 *.txt                          my-code default-encoding
 *.md                           my-code default-encoding  linguist-language=markdown diff=markdown
+## --- Python Configurations ------------------------------
 .python-version                my-code legacy-encoding
+## --- Sass -----------------------------------------------
+[attr]lang-sass                my-code working-tree-encoding=UTF-8 linguist-language=sass
+*.sass                         lang-sass
+*.scss                         lang-sass
 
-# Generated Directories
+# --- Generated Directories -------------------------------
 dist/                          build-output -diff -merge
 build/                         build-output -diff -merge
 out/                           build-output -diff -merge

@@ -4,6 +4,10 @@ import { mkdir, writeFile, copyFile, readdir, rm } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+
+const execFileAsync = promisify(execFile);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -15,7 +19,10 @@ const targets = targetArg ? [targetArg] : ["chrome", "firefox"];
 
 /** @typedef {"chrome" | "firefox"} Target */
 
-const RESTYLE_MATCHES = ["https://*.core.learn.edgenuity.com/*"];
+const RESTYLE_MATCHES = [
+    "https://*.core.learn.edgenuity.com/*",
+    "https://student.edgenuity.com/*",
+];
 const TOOLBAR_MATCHES = ["https://*.core.learn.edgenuity.com/player/*"];
 
 /** @type {(target: Target) => Record<string, unknown>} */
@@ -36,7 +43,7 @@ const buildManifest = (target) => {
                 matches: RESTYLE_MATCHES,
                 js: ["content.js"],
                 run_at: "document_start",
-                all_frames: false, // we walk iframes ourselves
+                all_frames: false,
                 match_about_blank: true,
             },
             {
@@ -55,7 +62,7 @@ const buildManifest = (target) => {
         ],
         web_accessible_resources: [
             {
-                resources: ["restyle.css"],
+                resources: ["styles/restyle.css"],
                 matches: RESTYLE_MATCHES,
             },
         ],
@@ -83,15 +90,23 @@ const buildTarget = async (target) => {
     if (existsSync(outdir)) await rm(outdir, { recursive: true });
     await mkdir(outdir, { recursive: true });
 
+    if (existsSync(join(outdir, "styles")))
+        await rm(join(outdir, "styles"), { recursive: true });
+    await mkdir(join(outdir, "styles"), { recursive: true });
+
     await writeFile(
         join(outdir, "manifest.json"),
         JSON.stringify(buildManifest(/** @type {Target} */ (target)), null, 2)
     );
 
-    await copyFile(
-        join(ROOT, "src", "restyle.css"),
-        join(outdir, "restyle.css")
-    );
+    await execFileAsync("sass", [
+        "--style=expanded",
+        "--charset",
+        "--no-error-css",
+        "--",
+        join(ROOT, "src", "styles", "restyle.scss"),
+        join(outdir, "styles", "restyle.css"),
+    ]);
 
     const iconsDir = join(ROOT, "public", "icons");
     if (existsSync(iconsDir)) {
