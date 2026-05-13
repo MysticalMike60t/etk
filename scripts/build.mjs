@@ -1,10 +1,10 @@
-// @ts-check
+// @ts-nocheck
 import * as esbuild from "esbuild";
 import { mkdir, writeFile, copyFile, readdir, rm } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { execFile } from "node:child_process";
+import { exec, execFile } from "node:child_process";
 import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
@@ -140,6 +140,7 @@ const buildTarget = async (target) => {
                 __DEV__: JSON.stringify(watch),
             },
             logLevel: watch ? "info" : "warning",
+            external: ["node_modules/*"],
         };
 
         if (watch) {

@@ -1,0 +1,17 @@
+@use "../vars/vars";
+
+#ETK_N_dashboard {
+    * {
+        color: vars.$text-color !important;
+    }
+    * a {
+        color: vars.$primary-color !important;
+    }
+    .navbar {
+        background-color: vars.$background-color !important;
+        border-bottom: 1px solid vars.$border-color !important;
+    }
+    .home-page-background {
+        background-color: vars.$background-color !important;
+    }
+}

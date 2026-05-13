@@ -1,1 +1,4 @@
-@use "player/player.scss";
+@use "vars/vars" as *;
+@forward "vars/vars";
+@use "dashboard/dashboard" as *;
+@use "player/player" as *;

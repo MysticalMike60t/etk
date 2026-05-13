@@ -9,6 +9,7 @@
  *
  * Cross-origin iframes that don't opt into the bridge are silently skipped.
  */
+import namespaces from "./namespaces";
 import overrides from "./overrides";
 
 export {};
@@ -35,6 +36,8 @@ const injectInto: (root: Document | ShadowRoot) => Promise<void> = async (
 ): Promise<void> => {
     if (!root) return;
     try {
+        namespaces.add_namespaces();
+
         const existing: Element | null =
             "getElementById" in root
                 ? root.getElementById(STYLE_ID)

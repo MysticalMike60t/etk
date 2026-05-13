@@ -25,9 +25,9 @@ function fix_activity_status(): void {
 
 function entry(): void {
     if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", (): void =>
-            fix_activity_status()
-        );
+        document.addEventListener("DOMContentLoaded", (): void => {
+            fix_activity_status();
+        });
     } else {
         fix_activity_status();
     }
