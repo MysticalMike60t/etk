@@ -1,0 +1,72 @@
+@use "../vars/vars" as vars;
+
+#ETK_N_login {
+    background-color: vars.$background-color !important;
+    * {
+        color: vars.$text-color !important;
+    }
+    header.MuiBox-root > a:nth-child(1) > img:nth-child(1) {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+    header.MuiBox-root > a:nth-child(1)::after {
+        content: "Edgenuity Login" !important;
+        font-size: 1em !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        color: vars.$text-color !important;
+        text-decoration: none !important;
+    }
+    header.MuiBox-root > a:nth-child(1) {
+        text-decoration: none !important;
+    }
+    header.MuiBox-root {
+        padding: 10px 10px !important;
+        margin-bottom: 10px !important;
+    }
+    main.MuiBox-root {
+        background-color: vars.$background-color-secondary-dark !important;
+        padding: 10px 20px !important;
+        border-radius: calc(vars.$border-radius * 2) !important;
+        margin-bottom: 10px !important;
+        h1.MuiTypography-root {
+            text-align: center !important;
+        }
+        button.MuiButtonBase-root:nth-child(4) {
+            background-color: vars.$primary-color !important;
+            &:hover {
+                background-color: vars.$primary-color !important;
+            }
+        }
+        #username,
+        #password {
+            background-color: vars.$background-color !important;
+            border-radius: vars.$border-radius !important;
+        }
+        .css-1a3sq83.Mui-focused .MuiOutlinedInput-notchedOutline,
+        .css-15nhhxg.Mui-focused .MuiOutlinedInput-notchedOutline {
+            border-color: vars.$primary-color !important;
+        }
+        .MuiInputBase-adornedEnd {
+            background-color: vars.$background-color-secondary !important;
+        }
+    }
+    footer.MuiBox-root {
+        margin-top: 20px !important;
+    }
+    #studentTab.Mui-selected,
+    #educatorTab.Mui-selected {
+        background: vars.$background-color-secondary !important;
+        outline: none !important;
+        border: none !important;
+        border-radius: vars.$border-radius !important;
+    }
+    #studentTab.Mui-selected:hover,
+    #educatorTab.Mui-selected:hover {
+        background: vars.$background-color-secondary-hover !important;
+    }
+    .MuiTabs-indicator {
+        background-color: vars.$primary-color !important;
+    }
+}

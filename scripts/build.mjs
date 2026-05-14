@@ -22,6 +22,7 @@ const targets = targetArg ? [targetArg] : ["chrome", "firefox"];
 const RESTYLE_MATCHES = [
     "https://*.core.learn.edgenuity.com/*",
     "https://student.edgenuity.com/*",
+    "https://auth.edgenuity.com/*",
 ];
 const TOOLBAR_MATCHES = ["https://*.core.learn.edgenuity.com/player/*"];
 
@@ -152,7 +153,10 @@ const buildTarget = async (target) => {
         }
     }
 
-    if (!watch) console.log(`[${target}] built -> ${outdir}`);
+    if (!watch)
+        console.log(
+            `[\x1b[35m${target}\x1b[0m] built \x1b[33m->\x1b[0m \x1b[34m${outdir}\x1b[0m`
+        );
 };
 
 await Promise.all(targets.map((t) => buildTarget(/** @type {Target} */ (t))));

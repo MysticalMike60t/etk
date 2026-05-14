@@ -1,12 +1,16 @@
 @use "images" as images;
 
 $background-color: #333;
+$background-color-hover: #444;
+$background-color-secondary-dark: rgb(25, 25, 25);
 $background-color-secondary: rgb(35, 35, 35);
+$background-color-secondary-hover: rgb(45, 45, 45);
 $background-color-image: rgba(75, 75, 75, 0.5);
 $background-color-alternate: #eee;
 $background-color-secondary-alternate: #ddd;
 $background-color-image-alternate: rgba(235, 235, 235, 0.5);
 $primary-color: #dc4e12;
+$primary-color-hover: #c74812;
 $success-color-light: #8ee68e;
 $success-color-light-hover: #85d685;
 $success-color: #5cb85c;
@@ -16,7 +20,8 @@ $success-color-transparent-hover: rgba(83, 163, 83, 0.2);
 $info-color: #40a7db;
 $border-color: rgb(65, 65, 65);
 $border-color-lighter: rgb(85, 85, 85);
-$text-color: white;
+$text-color: #ffffff;
+$text-color-dim: #cccccc;
 $text-color-alternate: black;
 $border-radius: 2px;
 $done-button-icon: url("https://images.vexels.com/media/users/3/157890/isolated/preview/4f2c005416b7f48b3d6d09c5c6763d87-check-mark-circle-icon.png");

@@ -1,6 +1,7 @@
-@use "../vars/vars";
+@use "../vars/vars" as vars;
 
 #ETK_N_dashboard {
+    background-color: vars.$background-color !important;
     * {
         color: vars.$text-color !important;
     }
@@ -13,5 +14,123 @@
     }
     .home-page-background {
         background-color: vars.$background-color !important;
+    }
+    .edgenuity-logo {
+        display: none !important;
+    }
+    .navbar-brand {
+        margin-left: 20px !important;
+        padding: 0 10px !important;
+        background-color: vars.$background-color-secondary !important;
+        outline: 1px solid vars.$border-color !important;
+        border: none !important;
+        border-radius: vars.$border-radius !important;
+    }
+    .navbar-brand::after {
+        content: "Home Page" !important;
+        font-size: 0.8em !important;
+    }
+    #profile-nav-dropdown {
+        background: vars.$primary-color !important;
+        &:hover {
+            background: vars.$primary-color-hover !important;
+        }
+    }
+    .dropdown-menu {
+        background-color: vars.$background-color-secondary !important;
+        .dropdown-item {
+            &:hover {
+                background-color: vars.$background-color-secondary-hover !important;
+            }
+            &:active,
+            &:focus {
+                background-color: vars.$background-color !important;
+            }
+            &::after {
+                margin-left: 10px !important;
+                background-color: vars.$primary-color !important;
+            }
+        }
+    }
+    .enrollable-courses-panel {
+        background-color: vars.$background-color !important;
+        box-shadow: none !important;
+        border-left: 1px solid vars.$border-color !important;
+    }
+    button.close {
+        background-color: vars.$background-color !important;
+        border: none !important;
+        padding: 5px 10px !important;
+        outline: 1px solid vars.$border-color !important;
+        border-radius: vars.$border-radius !important;
+        &:hover {
+            background-color: vars.$background-color-hover !important;
+            cursor: pointer !important;
+            border-radius: vars.$border-radius !important;
+        }
+    }
+    .user-title,
+    .sidenav,
+    a.sidenav-link:nth-child(1)::after {
+        background-color: vars.$background-color !important;
+    }
+    .user-title {
+        border-bottom: 1px solid vars.$border-color !important;
+    }
+    .sidenav ::after {
+        background: vars.$background-color !important;
+    }
+    @media (min-width: 768px) {
+        .sidenav ::after {
+            background: vars.$background-color !important;
+        }
+    }
+    #maincontent {
+        border-left: none !important;
+    }
+    .sidenav {
+        .sidenav-link {
+            width: 100%;
+            &:hover {
+                background-color: vars.$background-color-hover !important;
+                border-right: none !important;
+            }
+            &.active {
+                background: none !important;
+                background-color: vars.$primary-color !important;
+                color: vars.$text-color !important;
+            }
+        }
+    }
+    #maincontent > div:nth-child(1) > dl:nth-child(2) {
+        dt {
+            color: vars.$text-color-dim !important;
+            border-bottom: 1px solid vars.$border-color !important;
+            margin-bottom: 5px !important;
+        }
+    }
+    .email-panel,
+    .announcement-panel {
+        background-color: vars.$background-color !important;
+        box-shadow: none !important;
+        border-left: 1px solid vars.$border-color !important;
+        border-bottom: 1px solid vars.$border-color !important;
+        .email-message {
+            border: 1px solid vars.$border-color !important;
+        }
+    }
+    #message-list-pane {
+        border-right: 1px solid vars.$border-color !important;
+    }
+    .email-panel-actions,
+    .email-panel-header,
+    .announcement-title {
+        border-bottom: 1px solid vars.$border-color !important;
+    }
+    #reading-pane {
+        padding: 10px !important;
+        background-color: vars.$background-color-secondary !important;
+        border-radius: vars.$border-radius !important;
+        outline: 1px solid vars.$border-color !important;
     }
 }

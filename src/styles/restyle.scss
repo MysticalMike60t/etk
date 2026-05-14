@@ -1,4 +1,45 @@
-@use "vars/vars" as *;
-@forward "vars/vars";
-@use "dashboard/dashboard" as *;
-@use "player/player" as *;
+@use "vars/vars" as vars;
+@use "globals/globals";
+@use "dashboard/dashboard";
+@use "player/player";
+@use "login/login";
+
+* input,
+* select,
+* textarea {
+    color: vars.$text-color !important;
+    background-color: vars.$background-color !important;
+    border: none !important;
+    outline: 1px solid vars.$border-color !important;
+    padding: 5px 10px !important;
+    &:hover {
+        color: vars.$text-color !important;
+        border: none !important;
+        outline: 1px solid vars.$border-color !important;
+        background-color: vars.$background-color !important;
+    }
+    &:focus,
+    &:active {
+        color: vars.$text-color !important;
+        border: none !important;
+        outline: 1px solid vars.$primary-color !important;
+        background-color: vars.$background-color !important;
+    }
+}
+
+.btn-primary {
+    border: none !important;
+    outline: none !important;
+    background-color: vars.$primary-color !important;
+    border-radius: vars.$border-radius !important;
+    &:hover {
+        background-color: vars.$primary-color-hover !important;
+        border: none !important;
+        outline: none !important;
+    }
+    &:active,
+    &:focus {
+        border: none !important;
+        outline: none !important;
+    }
+}
