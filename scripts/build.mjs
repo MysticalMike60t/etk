@@ -82,6 +82,9 @@ const buildManifest = (target) => {
                 gecko: {
                     id: "etk@MysticalMike60t",
                     strict_min_version: "115.0",
+                    data_collection_permissions: {
+                        required: ["none"],
+                    },
                 },
             },
         };
