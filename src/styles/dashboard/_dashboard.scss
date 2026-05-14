@@ -25,6 +25,11 @@
         outline: 1px solid vars.$border-color !important;
         border: none !important;
         border-radius: vars.$border-radius !important;
+        transition: 100ms ease-in-out background-color !important;
+        cursor: pointer !important;
+        &:hover {
+            background-color: vars.$background-color-secondary-hover !important;
+        }
     }
     .navbar-brand::after {
         content: "Home Page" !important;
@@ -37,14 +42,16 @@
         }
     }
     .dropdown-menu {
-        background-color: vars.$background-color-secondary !important;
+        background-color: vars.$background-color !important;
         .dropdown-item {
+            color: vars.$primary-color !important;
             &:hover {
-                background-color: vars.$background-color-secondary-hover !important;
+                background-color: vars.$background-color-hover !important;
             }
             &:active,
             &:focus {
-                background-color: vars.$background-color !important;
+                color: vars.$text-color !important;
+                background-color: vars.$primary-color-hover !important;
             }
             &::after {
                 margin-left: 10px !important;
@@ -132,5 +139,54 @@
         background-color: vars.$background-color-secondary !important;
         border-radius: vars.$border-radius !important;
         outline: 1px solid vars.$border-color !important;
+    }
+    .attendance-log-search-container,
+    .attendance-log-header,
+    .attendance-logs-content > div:nth-child(1) .row,
+    #pendo-guide-container {
+        background-color: vars.$background-color !important;
+    }
+    #pendo-guide-container {
+        box-shadow: none !important;
+        border: 1px solid vars.$border-color-lighter !important;
+    }
+    .pendo-tooltip-caret {
+        border-left: 15px solid transparent !important;
+        border-right: 15px solid transparent !important;
+        border-bottom: 15px solid vars.$background-color !important;
+    }
+    .pendo-tooltip-caret-border {
+        border-left: 16px solid transparent !important;
+        border-right: 16px solid transparent !important;
+        border-bottom: 16px solid vars.$border-color-lighter !important;
+    }
+    #pendo-button-72207d92 {
+        background-color: vars.$primary-color !important;
+        border: none !important;
+        outline: none !important;
+        &:hover {
+            background-color: vars.$primary-color-hover !important;
+            border: none !important;
+            outline: none !important;
+        }
+    }
+    a.submit-request {
+        color: vars.$text-color !important;
+        background-color: vars.$background-color !important;
+        border-radius: vars.$border-radius !important;
+        border: none !important;
+        outline: 1px solid vars.$border-color !important;
+        &:hover {
+            background-color: vars.$background-color-hover !important;
+            border-radius: vars.$border-radius !important;
+            border: none !important;
+            outline: 1px solid vars.$border-color !important;
+        }
+    }
+    footer.footer {
+        background-color: vars.$background-color-secondary !important;
+        .float-left-50-width {
+            padding-left: 20px !important;
+        }
     }
 }
