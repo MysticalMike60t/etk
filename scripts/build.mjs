@@ -1,11 +1,17 @@
-// @ts-nocheck
+// @ts-check
 import * as esbuild from "esbuild";
 import { mkdir, writeFile, copyFile, readdir, rm } from "node:fs/promises";
-import { existsSync } from "node:fs";
+import { createWriteStream, existsSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { exec, execFile } from "node:child_process";
+import { execFile } from "node:child_process";
 import { promisify } from "node:util";
+import { zip } from "zip-a-folder";
+
+const METADATA = {
+    version: "2.1.0",
+    version_tag: "v2.1.0",
+};
 
 const execFileAsync = promisify(execFile);
 
@@ -157,6 +163,16 @@ const buildTarget = async (target) => {
         console.log(
             `[\x1b[35m${target}\x1b[0m] built \x1b[33m->\x1b[0m \x1b[34m${outdir}\x1b[0m`
         );
+
+    await mkdir(join(ROOT, "dist", "zipped"), { recursive: true });
+    zip(
+        join(ROOT, "dist", "chrome"),
+        join(ROOT, "dist", "zipped", `etk.${METADATA.version}.chrome.zip`)
+    );
+    zip(
+        join(ROOT, "dist", "firefox"),
+        join(ROOT, "dist", "zipped", `etk.${METADATA.version}.firefox.xpi`)
+    );
 };
 
 await Promise.all(targets.map((t) => buildTarget(/** @type {Target} */ (t))));
