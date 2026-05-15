@@ -7,4 +7,58 @@ LICENSE.xml
 .*ignore
 .editorconfig
 
-# TODO: Copy all content from "final" .gitignore
+# INFO: Copied all content from "final" .gitignore
+# --- Ignore ----------------------------------------------
+.*/
+.DS_Store/
+.git/
+node_modules/
+.venv/
+venv/
+dist/
+dists/
+build/
+builds/
+out/
+target/
+targets/
+release/
+releases/
+generated/
+binaries/
+bin/
+bins/
+sbin/
+sbins/
+
+## --- Compressed/Generated Code --------------------------
+*.min.js
+
+## --- Build Information ----------------------------------
+*.tsbuildinfo
+
+# --- Allow -----------------------------------------------
+
+## --- Git ------------------------------------------------
+!.githooks/
+
+## --- Configuration Directories --------------------------
+!.github/
+
+## --- Development ----------------------------------------
+!.dev/
+
+## --- IDE ------------------------------------------------
+!.zed/
+!.vscode/
+
+## --- Code Files -----------------------------------------
+!source/
+!README.md
+
+## --- Configurations -------------------------------------
+!package.json
+!pnpm-workspace.yaml
+
+## --- Generated ------------------------------------------
+!pnpm-lock.yaml

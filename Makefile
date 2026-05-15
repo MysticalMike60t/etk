@@ -2,6 +2,7 @@ BUILD_SCRIPT_PATH=scripts/build.mjs
 
 build:
 	node $(BUILD_SCRIPT_PATH)
+
 build-chrome:
 	node $(BUILD_SCRIPT_PATH) chrome
 

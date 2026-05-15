@@ -9,8 +9,12 @@ import { promisify } from "node:util";
 import { zip } from "zip-a-folder";
 
 const METADATA = {
-    version: "2.1.0",
-    version_tag: "v2.1.0",
+    name: "Edgenuity Toolkit",
+    name_short: "ETK",
+    version: "2.1.1",
+    version_tag: "v2.1.1",
+    description:
+        "Persistent restyle and toolkit overlay for Edgenuity, applied across same-origin iframes and shadow roots.",
 };
 
 const execFileAsync = promisify(execFile);
@@ -36,10 +40,9 @@ const TOOLBAR_MATCHES = ["https://*.core.learn.edgenuity.com/player/*"];
 const buildManifest = (target) => {
     const base = {
         manifest_version: 3,
-        name: "ETK",
-        version: "2.1.0",
-        description:
-            "Persistent restyle and toolkit overlay for Edgenuity, applied across same-origin iframes and shadow roots.",
+        name: METADATA.name_short,
+        version: METADATA.version,
+        description: METADATA.description,
         icons: {
             16: "icons/icon-16.png",
             48: "icons/icon-48.png",
@@ -80,7 +83,7 @@ const buildManifest = (target) => {
             ...base,
             browser_specific_settings: {
                 gecko: {
-                    id: "etk@MysticalMike60t",
+                    id: `${METADATA.name_short.toLowerCase()}@MysticalMike60t`,
                     strict_min_version: "115.0",
                     data_collection_permissions: {
                         required: ["none"],
@@ -170,11 +173,21 @@ const buildTarget = async (target) => {
     await mkdir(join(ROOT, "dist", "zipped"), { recursive: true });
     zip(
         join(ROOT, "dist", "chrome"),
-        join(ROOT, "dist", "zipped", `etk.${METADATA.version}.chrome.zip`)
+        join(
+            ROOT,
+            "dist",
+            "zipped",
+            `${METADATA.name_short.toLowerCase()}.${METADATA.version}.chrome.zip`
+        )
     );
     zip(
         join(ROOT, "dist", "firefox"),
-        join(ROOT, "dist", "zipped", `etk.${METADATA.version}.firefox.xpi`)
+        join(
+            ROOT,
+            "dist",
+            "zipped",
+            `${METADATA.name_short.toLowerCase()}.${METADATA.version}.firefox.xpi`
+        )
     );
 };
 
