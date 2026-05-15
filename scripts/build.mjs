@@ -11,8 +11,8 @@ import { zip } from "zip-a-folder";
 const METADATA = {
     name: "Edgenuity Toolkit",
     name_short: "ETK",
-    version: "2.1.1",
-    version_tag: "v2.1.1",
+    version: "2.1.2",
+    version_tag: "v2.1.2",
     description:
         "Persistent restyle and toolkit overlay for Edgenuity, applied across same-origin iframes and shadow roots.",
 };
