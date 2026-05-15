@@ -53,14 +53,29 @@
 
 # --- Language Assignments --------------------------------
 ## --- Repository configuration/documentation files -------
-*.gitattributes                my-code legacy-encoding   linguist-language=gitattributes
-.gitignore                     my-code legacy-encoding   linguist-language=gitignore
-LICENSE.xml                    my-code default-encoding  linguist-language=xml
-LICENSE                        my-code default-encoding
+### --- Ignore Files --------------------------------------
+.gitignore                     my-code exclude-stats                   linguist-language=gitignore
+.prettierignore                my-code exclude-stats                   linguist-language=gitignore
+.tokeignore                    my-code exclude-stats                   linguist-language=gitignore
+### --- Other ---------------------------------------------
+*.gitattributes                my-code exclude-stats                   linguist-language=gitattributes
+.gitconfig                     my-code exclude-stats
+LICENSE.xml                    my-code exclude-stats default-encoding  linguist-language=xml
+LICENSE                        my-code exclude-stats default-encoding
 *.txt                          my-code default-encoding
-*.md                           my-code default-encoding  linguist-language=markdown diff=markdown
+*.md                           my-code default-encoding                linguist-language=markdown diff=markdown
+.tokeirc                       my-code exclude-stats default-encoding
+.prettierrc                    my-code exclude-stats default-encoding
+.shellcheckrc                  my-code exclude-stats default-encoding
+.nvmrc                         my-code exclude-stats default-encoding
+.editorconfig                  my-code exclude-stats default-encoding
+.github/*                      my-code exclude-stats default-encoding
+.zed/*                         my-code exclude-stats default-encoding
+.vscode/*                      my-code exclude-stats default-encoding
+.devcontainer/*                my-code exclude-stats default-encoding
+.dev/*                         my-code exclude-stats default-encoding
 ## --- Python Configurations ------------------------------
-.python-version                my-code legacy-encoding
+.python-version                my-code exclude-stats legacy-encoding
 ## --- PNPM -----------------------------------------------
 *pnpm*                         exclude-stats
 ## --- Sass -----------------------------------------------
