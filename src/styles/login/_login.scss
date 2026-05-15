@@ -69,4 +69,14 @@
     .MuiTabs-indicator {
         background-color: vars.$primary-color !important;
     }
+    @media screen and (max-width: 1229px) {
+        .MuiPaper-root {
+            background-image: var(--login-panel-artwork-image-1x) !important;
+        }
+    }
+    @media screen and (min-width: 1230px) {
+        .MuiPaper-root {
+            background-image: var(--login-panel-artwork-image-2x) !important;
+        }
+    }
 }

@@ -22,20 +22,38 @@ function fix_activity_status(): void {
         );
     }
 }
+function get_backgrounds(): void {
+    // WARNING: Not all of them are used. Only loading the image currently implemented in the stylesheets.
+    document.documentElement.style.setProperty(
+        "--login-panel-artwork-image-0.5x",
+        `url("${chrome.runtime.getURL("backgrounds/login-panel-artwork-0.5x.png")}")`
+    );
+    document.documentElement.style.setProperty(
+        "--login-panel-artwork-image-1x",
+        `url("${chrome.runtime.getURL("backgrounds/login-panel-artwork-1x.png")}")`
+    );
+    document.documentElement.style.setProperty(
+        "--login-panel-artwork-image-2x",
+        `url("${chrome.runtime.getURL("backgrounds/login-panel-artwork-2x.png")}")`
+    );
+}
 
 function entry(): void {
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", (): void => {
             fix_activity_status();
+            get_backgrounds();
         });
     } else {
         fix_activity_status();
+        get_backgrounds();
     }
 }
 
 const overrides = {
     entry,
     fix_activity_status,
+    get_backgrounds,
 };
 
 export default overrides;

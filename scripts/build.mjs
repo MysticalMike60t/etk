@@ -72,7 +72,11 @@ const buildManifest = (target) => {
         ],
         web_accessible_resources: [
             {
-                resources: ["styles/restyle.css"],
+                resources: [
+                    "styles/restyle.css",
+                    "icons/*.png",
+                    "backgrounds/*.png",
+                ],
                 matches: RESTYLE_MATCHES,
             },
         ],
@@ -127,6 +131,18 @@ const buildTarget = async (target) => {
         await mkdir(destIcons, { recursive: true });
         for (const file of await readdir(iconsDir)) {
             await copyFile(join(iconsDir, file), join(destIcons, file));
+        }
+    }
+
+    const backgroundsDir = join(ROOT, "public", "backgrounds");
+    if (existsSync(backgroundsDir)) {
+        const destBackgrounds = join(outdir, "backgrounds");
+        await mkdir(destBackgrounds, { recursive: true });
+        for (const file of await readdir(backgroundsDir)) {
+            await copyFile(
+                join(backgroundsDir, file),
+                join(destBackgrounds, file)
+            );
         }
     }
 
