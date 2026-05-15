@@ -25,8 +25,6 @@ npm run typecheck          # tsc --noEmit
 <span> comments follow <a href="https://www.markdownguide.org/">markdown</a></span>
 <span> <a id="link-markdown-header" href="https://www.markdownguide.org/basic-syntax/#headings">header</a> syntax.</span>
 <span> This makes it a little easier to read comments, since</span>
-<span> you can parse it as markdown<sup><a href="#link-markdown-header">
-<img src="https://img.shields.io/badge/header?style=flat-square&color=1f6feb&labelColor=0d1117" alt="Markdown Documention - Header" />
-</a></sup>.</span>
+<span> you can parse it as markdown.</span>
 </p>
 </div>
