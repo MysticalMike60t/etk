@@ -1,7 +1,7 @@
 /**
  * @file ETK - Overrides
  * @author Caden Finkelstein
- * @version 2.1.5
+ * @version 2.1.6
  */
 /**
  * Fix activity status inside of player showiung as title color instead of actual status color.

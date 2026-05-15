@@ -1,7 +1,7 @@
 /**
  * @file ETK - Toolbar UI
  * @author Caden Finkelstein
- * @version 2.1.5
+ * @version 2.1.6
  */
 export {};
 

@@ -1,7 +1,7 @@
 /**
  * @file ETK - Namespaces
  * @author Caden Finkelstein
- * @version 2.1.5
+ * @version 2.1.6
  */
 /**
  * Add namespace IDs dependent on the current page to assist stylesheets.

@@ -1,7 +1,7 @@
 /**
- *
- *
- *
+ * @file ETK - Build Script
+ * @author Caden Finkelstein
+ * @version 2.1.6
  * @desc Build script that builds extension for Firefox and Chrome.
  */
 // @ts-check
@@ -20,8 +20,8 @@ import { zip } from "zip-a-folder";
 const METADATA = {
     name: "Edgenuity Toolkit",
     name_short: "ETK",
-    version: "2.1.5",
-    version_tag: "v2.1.5",
+    version: "2.1.6",
+    version_tag: "v2.1.6",
     description:
         "Persistent restyle and toolkit overlay for Edgenuity, applied across same-origin iframes and shadow roots.",
 };
@@ -123,7 +123,7 @@ const buildManifest = (target) => {
             browser_specific_settings: {
                 gecko: {
                     id: `${METADATA.name_short.toLowerCase()}@MysticalMike60t`,
-                    strict_min_version: "2.1.5",
+                    strict_min_version: "115.0", // Should be 115.0
                     data_collection_permissions: {
                         required: ["none"],
                     },

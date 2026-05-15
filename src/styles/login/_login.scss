@@ -6,7 +6,9 @@
     * {
         color: vars.$text-color !important;
     }
-    .css-zjbk50 > a:nth-child(1) {
+    .css-zjbk50 > a:nth-child(1),
+    div.MuiStack-root:nth-child(1) > a,
+    div.MuiStack-root:nth-child(3) > a {
         @include global-mixins.link-generic;
     }
     header.MuiBox-root > a:nth-child(1) > img:nth-child(1) {

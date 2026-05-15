@@ -1,32 +1,32 @@
 {
-    "name": "etk",
-    "version": "2.1.5",
-    "description": "Persistent restyle for Edgenuity, applied across same-origin iframes and shadow roots.",
-    "keywords": [],
-    "author": "Caden Finkelstein",
-    "license": "CC BY 4.0",
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "build": "node scripts/build.mjs",
-        "build:chrome": "node scripts/build.mjs chrome",
-        "build:firefox": "node scripts/build.mjs firefox",
-        "watch": "node scripts/build.mjs --watch",
-        "typecheck": "tsc --noEmit",
-        "clean": "rm -rf dist",
-        "format": "pnpm exec prettier . --write --config=\".prettierrc\"",
-        "check:prettier": "pnpm exec prettier . --check --config=\".prettierrc\"",
-        "check:all": "tsc --noEmit && pnpm exec prettier . --check --config=\".prettierrc\""
-    },
-    "devDependencies": {
-        "@types/chrome": "^0.0.268",
-        "esbuild": "^0.23.1",
-        "make": "^0.8.1",
-        "prettier": "3.8.3",
-        "prettier-plugin-toml": "^2.0.6",
-        "sass": "^1.99.0",
-        "typescript": "^5.9.3",
-        "zip-a-folder": "^6.1.1"
-    },
-    "packageManager": "pnpm@11.1.2"
+  "name": "etk",
+  "version": "2.1.6",
+  "description": "Persistent restyle for Edgenuity, applied across same-origin iframes and shadow roots.",
+  "keywords": [],
+  "author": "Caden Finkelstein",
+  "license": "CC BY 4.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:chrome": "node scripts/build.mjs chrome",
+    "build:firefox": "node scripts/build.mjs firefox",
+    "watch": "node scripts/build.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "format": "pnpm exec prettier . --write --config=\".prettierrc\"",
+    "check:prettier": "pnpm exec prettier . --check --config=\".prettierrc\"",
+    "check:all": "tsc --noEmit && pnpm exec prettier . --check --config=\".prettierrc\""
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.268",
+    "esbuild": "^0.23.1",
+    "make": "^0.8.1",
+    "prettier": "3.8.3",
+    "prettier-plugin-toml": "^2.0.6",
+    "sass": "^1.99.0",
+    "typescript": "^5.9.3",
+    "zip-a-folder": "^6.1.1"
+  },
+  "packageManager": "pnpm@11.1.2"
 }

@@ -1,7 +1,7 @@
 /**
  * @file ETK - content script
  * @author Caden Finkelstein
- * @version 2.1.5
+ * @version 2.1.6
  *
  * Edgenuity uses `document.domain = "edgenuity.com"` on both the parent
  * (r19.core.learn.edgenuity.com) and the lesson iframe (media.edgenuity.com)

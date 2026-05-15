@@ -13,8 +13,8 @@ SED_I=$(if [[ "${OSTYPE}" == "darwin"* ]]; then echo " \"\""; else echo ""; fi)
 
 jq --arg v "${VERSION}" '.version = $v' package.json > tmp.json && mv tmp.json package.json
 
-sed -i"${SED_I}" "s/version: \".*\"/version: \"${VERSION}\"/" scripts/build.mjs
-sed -i"${SED_I}" "s/version_tag: \"v.*\"/version_tag: \"v${VERSION}\"/" scripts/build.mjs
+sed -i"${SED_I}" "s/^\(\s*\)version: \".*\"/\1version: \"${VERSION}\"/" scripts/build.mjs
+sed -i"${SED_I}" "s/^\(\s*\)version_tag: \"v.*\"/\1version_tag: \"v${VERSION}\"/" scripts/build.mjs
 while IFS= read -r -d '' file; do
     sed -i"${SED_I}" "s/@version .*/\@version ${VERSION}/" "${file}"
     echo "  updated ${file}"
