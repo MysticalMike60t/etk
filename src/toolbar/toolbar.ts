@@ -1,20 +1,29 @@
 /**
- * Edgenuity Toolkit - toolbar UI
- *
- * @AUTHOR Caden Finkelstein
- *
- * @SINCE 0.1.0
+ * @file ETK - Toolbar UI
+ * @author Caden Finkelstein
+ * @version 2.1.5
  */
 export {};
 
-const TOOLBAR_ID = "edgenuity-toolkit-bar";
-const STYLE_ID = "edgenuity-toolkit-style";
-const MSG_REQUEST = "etk-request";
+/** @type {string} */
+const TOOLBAR_ID: string = "edgenuity-toolkit-bar";
+/** @type {string} */
+const STYLE_ID: string = "edgenuity-toolkit-style";
+/** @type {string} */
+const MSG_REQUEST: string = "etk-request";
 
 type Command = "hideBlocker" | "backFrame" | "nextFrame" | "checkFrame";
 
+/** @type {number} */
 let nextRequestId: number = 0;
+/**
+ * Sends command to window.
+ * @param {Command} command Command to send.
+ * @returns {void}
+ * @since 2.1.5
+ */
 const sendCommand: (command: Command) => void = (command: Command): void => {
+    /** @type {number} */
     const id: number = nextRequestId++;
     window.postMessage(
         { source: MSG_REQUEST, id, command },
@@ -22,6 +31,25 @@ const sendCommand: (command: Command) => void = (command: Command): void => {
     );
 };
 
+/**
+ * Types/structure for each button displayed on toolbar.
+ * @example <caption>Submit Button</caption>
+ *1 [
+ *2     {
+ *3         label: "Unblock Screen",
+ *4         id: "btn-unblock",
+ *5         variant: "danger",
+ *6         onClick: (): void => {
+ *7             sendCommand("hideBlocker");
+ *8             const n: number = unblockScreen();
+ *9             console.info(`[ETK] Unblocked ${n} element(s)`);
+ *10        }
+ *11     }
+ *12 ]
+ *
+ * @throws {TypeError}
+ * @since 2.1.5
+ */
 interface ButtonSpec {
     label: string;
     id: string;
@@ -29,6 +57,11 @@ interface ButtonSpec {
     onClick: () => void;
 }
 
+/**
+ * Defines color palettes.
+ * @type {Record<ButtonSpec["variant"],{ bg: string; bgHover: string; border: string; text: string }}
+ * @since 2.1.5
+ */
 const PALETTES: Record<
     ButtonSpec["variant"],
     { bg: string; bgHover: string; border: string; text: string }
@@ -60,10 +93,17 @@ const PALETTES: Record<
 };
 
 /**
- * Looks at the document (and same-origin iframes) hiding invisible blocker
- * overlays.
+ * Looks at the document (and same-origin iframes) hiding invisible blocker overlays.
+ * @returns {number}
+ * @throws {Error}
+ * @since 2.1.5
  */
 const unblockScreen: () => number = (): number => {
+    /**
+     * Defines currently known page blocking element's IDs.
+     * @type {string[]}
+     * @since 2.1.5
+     */
     const KNOWN_BLOCKER_IDS: string[] = [
         "submitBlocker",
         "submitLoading",
@@ -71,9 +111,18 @@ const unblockScreen: () => number = (): number => {
         "invisodiv",
         "invis_div",
     ];
-    const KEEP = new Set([TOOLBAR_ID]);
+    /** @type {Set<string>} */
+    const KEEP: Set<string> = new Set([TOOLBAR_ID]);
+    /** @type {number} */
     let count: number = 0;
 
+    /**
+     * Hides specified element.
+     * @param {HTMLElement} el Element to hide.
+     * @returns {void}
+     * @throws {Error}
+     * @since 2.1.5
+     */
     const hide: (el: HTMLElement) => void = (el: HTMLElement): void => {
         el.style.display = "none";
         el.style.pointerEvents = "none";
@@ -81,8 +130,16 @@ const unblockScreen: () => number = (): number => {
         count++;
     };
 
+    /**
+     * @todo Create description for this JsDoc.
+     * @param {Document} doc Document to sweep.
+     * @returns {void}
+     * @throws {Error}
+     * @since 2.1.5
+     */
     const sweep: (doc: Document) => void = (doc: Document): void => {
         for (const id of KNOWN_BLOCKER_IDS) {
+            /** @type {HTMLElement | null} */
             const el: HTMLElement | null = doc.getElementById(id);
             if (el && !KEEP.has(el.id)) hide(el);
         }
@@ -91,7 +148,9 @@ const unblockScreen: () => number = (): number => {
             doc.querySelectorAll<HTMLElement>("[id],[class]").forEach(
                 (el: HTMLElement): void => {
                     if (KEEP.has(el.id)) return;
+                    /** @type {string} */
                     const id: string = (el.id || "").toLowerCase();
+                    /** @type {string} */
                     const cls: string =
                         typeof el.className === "string"
                             ? el.className.toLowerCase()
@@ -103,6 +162,11 @@ const unblockScreen: () => number = (): number => {
             true;
         }
 
+        /**
+         * Defines selectors for more blockers.
+         * @type {string[]}
+         * @since 2.1.5
+         */
         const SELECTORS: string[] = [
             "[id*='blocker']",
             "[id*='Blocker']",
@@ -127,14 +191,18 @@ const unblockScreen: () => number = (): number => {
             doc.querySelectorAll<HTMLElement>("div,span").forEach(
                 (el: HTMLElement): void => {
                     if (KEEP.has(el.id)) return;
+                    /** @type {DOMRect} */
                     const rect: DOMRect = el.getBoundingClientRect();
                     if (rect.width < 200 || rect.height < 200) return;
 
+                    /** @type {CSSStyleDeclaration | undefined} */
                     const style: CSSStyleDeclaration | undefined =
                         doc.defaultView?.getComputedStyle(el);
                     if (!style) return;
 
+                    /** @type {number} */
                     const opacity: number = parseFloat(style.opacity);
+                    /** @type {string} */
                     const pointerEvents: string = style.pointerEvents;
                     if (
                         (opacity < 0.05 || pointerEvents === "none") &&
@@ -214,6 +282,7 @@ const injectStyles: () => void = (): void => {
         )
         .join("\n");
 
+    /** @type {HTMLStyleElement} */
     const style: HTMLStyleElement = document.createElement("style");
     style.id = STYLE_ID;
     style.textContent = `
@@ -252,18 +321,27 @@ const build: () => void = (): void => {
 
     injectStyles();
 
+    /** @type {HTMLDivElement} */
     const bar: HTMLDivElement = document.createElement("div");
     bar.id = TOOLBAR_ID;
 
+    /** @type {HTMLElement} */
     const credit: HTMLElement = document.createElement("address");
     credit.className = "etk-credit";
     credit.textContent = "github.com/MysticalMike60t/etk";
     bar.appendChild(credit);
 
+    /** @type {HTMLDivElement} */
     const row: HTMLDivElement = document.createElement("div");
     row.className = "etk-row";
     bar.appendChild(row);
 
+    /**
+     * Array of buttons for the toolbar.
+     * @see ButtonSpec
+     * @type {ButtonSpec[]}
+     * @since 2.1.5
+     */
     const buttons: ButtonSpec[] = [
         {
             label: "Unblock Screen",

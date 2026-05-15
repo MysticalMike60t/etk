@@ -1,9 +1,13 @@
 @use "../vars/vars" as vars;
+@use "../mixins/globals" as global-mixins;
 
 #ETK_N_login {
     background-color: vars.$background-color !important;
     * {
         color: vars.$text-color !important;
+    }
+    .css-zjbk50 > a:nth-child(1) {
+        @include global-mixins.link-generic;
     }
     header.MuiBox-root > a:nth-child(1) > img:nth-child(1) {
         display: none !important;

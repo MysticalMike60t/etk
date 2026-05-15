@@ -1,0 +1,10 @@
+@use "../vars/vars" as vars;
+
+@mixin link-generic {
+    color: vars.$text-color !important;
+    text-decoration-color: vars.$primary-color !important;
+    transition: 100ms ease-in-out color !important;
+    &:hover {
+        color: vars.$primary-color !important;
+    }
+}

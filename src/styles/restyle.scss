@@ -32,6 +32,10 @@
 * a {
     color: vars.$primary-color !important;
     text-decoration-color: vars.$primary-color !important;
+    transition: 100ms ease-in-out color !important;
+    &:hover {
+        color: vars.$primary-color !important;
+    }
 }
 
 .btn-primary {

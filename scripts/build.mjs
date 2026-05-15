@@ -20,8 +20,8 @@ import { zip } from "zip-a-folder";
 const METADATA = {
     name: "Edgenuity Toolkit",
     name_short: "ETK",
-    version: "2.1.3",
-    version_tag: "v2.1.3",
+    version: "2.1.5",
+    version_tag: "v2.1.5",
     description:
         "Persistent restyle and toolkit overlay for Edgenuity, applied across same-origin iframes and shadow roots.",
 };
@@ -123,7 +123,7 @@ const buildManifest = (target) => {
             browser_specific_settings: {
                 gecko: {
                     id: `${METADATA.name_short.toLowerCase()}@MysticalMike60t`,
-                    strict_min_version: "2.1.3",
+                    strict_min_version: "2.1.5",
                     data_collection_permissions: {
                         required: ["none"],
                     },

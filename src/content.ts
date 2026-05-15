@@ -1,5 +1,7 @@
 /**
- * ETK - content script
+ * @file ETK - content script
+ * @author Caden Finkelstein
+ * @version 2.1.5
  *
  * Edgenuity uses `document.domain = "edgenuity.com"` on both the parent
  * (r19.core.learn.edgenuity.com) and the lesson iframe (media.edgenuity.com)
@@ -9,18 +11,51 @@
  *
  * Cross-origin iframes that don't opt into the bridge are silently skipped.
  */
+
 import namespaces from "./namespaces";
 import overrides from "./overrides";
 
 export {};
 
+/**
+ * Browsers.
+ * @type {"chrome" | "firefox"}
+ * @since 2.1.5
+ */
 declare const __TARGET__: "chrome" | "firefox";
+/**
+ * Is in development state.
+ * @type {boolean}
+ * @since 2.1.5
+ */
 declare const __DEV__: boolean;
 
-const STYLE_ID = "etk";
+/**
+ * ID for styling ETK content.
+ * @type {string}
+ * @since 2.1.5
+ */
+const STYLE_ID: string = "etk";
+/**
+ * URL to main compiled CSS stylesheet using {@link chrome} API.
+ * @type {string}
+ * @since 2.1.5
+ */
 const CSS_URL: string = chrome.runtime.getURL("styles/restyle.css");
 
+/**
+ * IDK how to explain this.
+ * @type {Promise<string> | null}
+ * @todo Figure out how to explain this for JsDoc
+ * @since 2.1.5
+ */
 let cssTextPromise: Promise<string> | null = null;
+/**
+ * Load CSS from {@link CSS_URL}.
+ * @returns {Promise<string>}
+ * @throws {Error}
+ * @since 2.1.5
+ */
 const loadCss: () => Promise<string> = (): Promise<string> => {
     cssTextPromise ??= fetch(CSS_URL).then(
         (r: Response): Promise<string> => r.text()
@@ -29,7 +64,11 @@ const loadCss: () => Promise<string> = (): Promise<string> => {
 };
 
 /**
- * Inject <style>
+ * Inject <style> into document.
+ * @param {Document | ShadowRoot} root Root element for <style> to be injected into.
+ * @returns {Promise<void>}
+ * @throws {Error}
+ * @since 2.1.5
  */
 const injectInto: (root: Document | ShadowRoot) => Promise<void> = async (
     root: Document | ShadowRoot
@@ -38,22 +77,47 @@ const injectInto: (root: Document | ShadowRoot) => Promise<void> = async (
     try {
         namespaces.add_namespaces();
 
+        /**
+         * Checks if {@link root} element was created/exists using {@link STYLE_ID}.
+         * @type {Element | null}
+         * @since 2.1.5
+         */
         const existing: Element | null =
             "getElementById" in root
                 ? root.getElementById(STYLE_ID)
                 : (root as ShadowRoot).querySelector(`#${STYLE_ID}`);
         if (existing) return;
 
+        /**
+         * Raw CSS string from {@link loadCss}.
+         * @type {string}
+         * @since 2.1.5
+         */
         const css: string = await loadCss();
+        /**
+         * Check if {@link root} is still missing after 1st check, and attempt to use {@link loadCss}. Then checks if {@link root} element was created/exists using {@link STYLE_ID}.
+         * @type {boolean}
+         * @since 2.1.5
+         */
         const stillMissing: boolean =
             "getElementById" in root
                 ? !root.getElementById(STYLE_ID)
                 : !(root as ShadowRoot).querySelector(`#${STYLE_ID}`);
         if (!stillMissing) return;
 
+        /**
+         * Creates document loaded into constant variable.
+         * @type {Document}
+         * @since 2.1.5
+         */
         const doc: Document = (root as Document).createElement
             ? (root as Document)
             : ((root as ShadowRoot).ownerDocument ?? document);
+        /**
+         * Create <style> HTML element attached to {@link doc}, and load into constant variable.
+         * @type {HTMLStyleElement}
+         * @since 2.1.5
+         */
         const style: HTMLStyleElement = doc.createElement("style");
         style.id = STYLE_ID;
         style.textContent = css;
@@ -71,11 +135,24 @@ const injectInto: (root: Document | ShadowRoot) => Promise<void> = async (
 };
 
 /**
- * Walk and inject
+ * Walk through page, and inject elements.
+ * @param {Document} root Root element.
+ * @returns {void}
+ * @since 2.1.5
  */
 const walkAndInject: (root: Document) => void = (root: Document): void => {
+    /**
+     * @returns {void}
+     * @todo Implement description into this JsDoc.
+     * @since 2.1.5
+     */
     void injectInto(root);
 
+    /**
+     * List of elements gathered from {@link root}.
+     * @type {NodeListOf<Element>}
+     * @since 2.1.5
+     */
     let elements: NodeListOf<Element>;
     try {
         elements = root.querySelectorAll("*");
@@ -87,8 +164,18 @@ const walkAndInject: (root: Document) => void = (root: Document): void => {
         if (el.shadowRoot) void injectInto(el.shadowRoot);
 
         if (el.tagName === "IFRAME") {
-            const iframe = el as HTMLIFrameElement;
+            /**
+             * Define iframe from {@link el}, and place into a new constant variable.
+             * @type {HTMLIFrameElement}
+             * @since 2.1.5
+             */
+            const iframe: HTMLIFrameElement = el as HTMLIFrameElement;
             try {
+                /**
+                 * Defines {@link iframe} document element.
+                 * @type {Document | null}
+                 * @since 2.1.5
+                 */
                 const iframeDoc: Document | null = iframe.contentDocument;
                 if (iframeDoc) walkAndInject(iframeDoc);
             } catch {
@@ -98,6 +185,11 @@ const walkAndInject: (root: Document) => void = (root: Document): void => {
                 "load",
                 (): void => {
                     try {
+                        /**
+                         * Defines {@link iframe} document element.
+                         * @type {Document | null}
+                         * @since 2.1.5
+                         */
                         const iframeDoc: Document | null =
                             iframe.contentDocument;
                         if (iframeDoc) walkAndInject(iframeDoc);
@@ -111,23 +203,52 @@ const walkAndInject: (root: Document) => void = (root: Document): void => {
     }
 };
 
+/**
+ * Start extension/{@link walkAndInject}.
+ * @returns {void}
+ * @throws {Error}
+ * @since 2.1.5
+ */
 const start: () => void = (): void => {
     walkAndInject(document);
-    const observer = new MutationObserver(
+    /**
+     * New Mutation Observer.
+     * @type {MutationObserver}
+     * @todo Improve this JsDoc.
+     * @throws {Error}
+     * @since 2.1.5
+     */
+    const observer: MutationObserver = new MutationObserver(
         (mutations: MutationRecord[]): void => {
             for (const m of mutations) {
                 for (const node of m.addedNodes) {
                     if (node.nodeType !== Node.ELEMENT_NODE) continue;
-                    const el = node as Element;
+                    /**
+                     * Defines {@link node} as element.
+                     * @type {Element}
+                     * @since 2.1.5
+                     */
+                    const el: Element = node as Element;
 
                     if (el.shadowRoot) void injectInto(el.shadowRoot);
 
                     if (el.tagName === "IFRAME") {
-                        const iframe = el as HTMLIFrameElement;
+                        /**
+                         * Defines {@link el} as iframe constant variable.
+                         * @type {HTMLIFrameElement}
+                         * @since 2.1.5
+                         */
+                        const iframe: HTMLIFrameElement =
+                            el as HTMLIFrameElement;
                         iframe.addEventListener(
                             "load",
                             (): void => {
                                 try {
+                                    /**
+                                     * Defines {@link iframe} document to walk.
+                                     * @type {Document | null}
+                                     * @since 2.1.5
+                                     */
                                     const doc: Document | null =
                                         iframe.contentDocument;
                                     if (doc) walkAndInject(doc);
@@ -142,6 +263,11 @@ const start: () => void = (): void => {
                         el.querySelectorAll("iframe").forEach(
                             (iframe: HTMLIFrameElement): void => {
                                 try {
+                                    /**
+                                     * Defines {@link iframe} document to walk.
+                                     * @type {Document | null}
+                                     * @since 2.1.5
+                                     */
                                     const doc: Document | null = (
                                         iframe as HTMLIFrameElement
                                     ).contentDocument;

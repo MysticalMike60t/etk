@@ -1,9 +1,14 @@
-// TODO: Fix overrides functionality.
+/**
+ * @file ETK - Overrides
+ * @author Caden Finkelstein
+ * @version 2.1.5
+ */
 /**
  * Fix activity status inside of player showiung as title color instead of actual status color.
- * @constructor
  * @function
  * @return {void}
+ * @throws {Error}
+ * @since 2.1.5
  */
 function fix_activity_status(): void {
     const element: HTMLElement | null =
@@ -30,9 +35,10 @@ function fix_activity_status(): void {
 }
 /**
  * Get background images from Chrome runtime API.
- * @constructor
  * @function
  * @return {void}
+ * @throws {Error}
+ * @since 2.1.5
  */
 function get_backgrounds(): void {
     // WARNING: Not all of them are used. Only loading the image currently implemented in the stylesheets.
@@ -51,9 +57,10 @@ function get_backgrounds(): void {
 }
 /**
  * Handle entry into page overrides.
- * @constructor
  * @function
  * @return {void}
+ * @throws {Error}
+ * @since 2.1.5
  */
 function entry(): void {
     if (document.readyState === "loading") {
@@ -69,10 +76,10 @@ function entry(): void {
 
 /**
  * Combine functions into single object.
- * @constructor
- * @type {Object}
+ * @type {Record<string, () => void>}
+ * @since 2.1.5
  */
-const overrides: Object = {
+const overrides: Record<string, () => void> = {
     entry,
     fix_activity_status,
     get_backgrounds,
