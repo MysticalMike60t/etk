@@ -1,5 +1,4 @@
 @use "vars/vars" as vars;
-@use "globals/globals";
 @use "dashboard/dashboard";
 @use "player/player";
 @use "login/login";
@@ -25,6 +24,14 @@
         outline: 1px solid vars.$primary-color !important;
         background-color: vars.$background-color !important;
     }
+}
+
+* {
+    color: vars.$text-color !important;
+}
+* a {
+    color: vars.$primary-color !important;
+    text-decoration-color: vars.$primary-color !important;
 }
 
 .btn-primary {

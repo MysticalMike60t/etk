@@ -1,16 +1,9 @@
 /**
  * Edgenuity Toolkit - toolbar UI
  *
- * Runs in the content script's isolated world. Builds the floating button
- * bar and routes button clicks to the main-world bridge via postMessage.
+ * @AUTHOR Caden Finkelstein
  *
- * The DOM and CSS live here because building DOM is identical in both worlds;
- * only the JS function calls into Edgenuity's `API` object require the bridge.
- *
- * One feature lives entirely in this script: "Unblock Screen" performs a DOM
- * sweep for invisible blocker overlays (an iframe-walking heuristic). That
- * does not need page-world access — it only reads the DOM, which both worlds
- * share.
+ * @SINCE 0.1.0
  */
 export {};
 
@@ -264,7 +257,7 @@ const build: () => void = (): void => {
 
     const credit: HTMLElement = document.createElement("address");
     credit.className = "etk-credit";
-    credit.textContent = "Made by: Caden Finkelstein";
+    credit.textContent = "github.com/MysticalMike60t/etk";
     bar.appendChild(credit);
 
     const row: HTMLDivElement = document.createElement("div");

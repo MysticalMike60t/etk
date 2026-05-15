@@ -1,4 +1,10 @@
 // TODO: Fix overrides functionality.
+/**
+ * Fix activity status inside of player showiung as title color instead of actual status color.
+ * @constructor
+ * @function
+ * @return {void}
+ */
 function fix_activity_status(): void {
     const element: HTMLElement | null =
         document.getElementById("activity-status");
@@ -22,6 +28,12 @@ function fix_activity_status(): void {
         );
     }
 }
+/**
+ * Get background images from Chrome runtime API.
+ * @constructor
+ * @function
+ * @return {void}
+ */
 function get_backgrounds(): void {
     // WARNING: Not all of them are used. Only loading the image currently implemented in the stylesheets.
     document.documentElement.style.setProperty(
@@ -37,7 +49,12 @@ function get_backgrounds(): void {
         `url("${chrome.runtime.getURL("backgrounds/login-panel-artwork-2x.png")}")`
     );
 }
-
+/**
+ * Handle entry into page overrides.
+ * @constructor
+ * @function
+ * @return {void}
+ */
 function entry(): void {
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", (): void => {
@@ -50,7 +67,12 @@ function entry(): void {
     }
 }
 
-const overrides = {
+/**
+ * Combine functions into single object.
+ * @constructor
+ * @type {Object}
+ */
+const overrides: Object = {
     entry,
     fix_activity_status,
     get_backgrounds,

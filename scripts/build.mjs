@@ -135,7 +135,11 @@ const buildManifest = (target) => {
     return base;
 };
 
-/** @type {(target: Target) => Promise<void>} */
+/**
+ * @constructor
+ * @param {Target} target
+ * @type {(target: Target) => Promise<void>}
+ */
 const buildTarget = async (target) => {
     /**
      * @type {string}

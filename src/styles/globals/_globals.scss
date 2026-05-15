@@ -1,8 +1,0 @@
-@use "../vars/vars" as vars;
-
-* {
-    color: vars.$text-color !important;
-}
-* a {
-    color: vars.$primary-color !important;
-}
