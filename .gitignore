@@ -1,18 +1,10 @@
-# Ignore
-## Hidden Directories
-### All Hidden Folders Ignored By Default
-[.]*/
-[.]DS_Store/
-
-## Generated directories
-### Git
+# --- Ignore ----------------------------------------------
+.*/
+.DS_Store/
 .git/
-### Dev
 node_modules/
 .venv/
 venv/
-
-### Build
 dist/
 dists/
 build/
@@ -29,29 +21,34 @@ bins/
 sbin/
 sbins/
 
-## Compressed/Generated Code
-
+## --- Compressed/Generated Code --------------------------
 *.min.js
 
-## Build Information
+## --- Build Information ----------------------------------
 *.tsbuildinfo
 
-# Allow
-## Git
+# --- Allow -----------------------------------------------
+
+## --- Git ------------------------------------------------
 !.githooks/
-## Configuration Directories
+
+## --- Configuration Directories --------------------------
 !.github/
-### IDE
+
+## --- Development ----------------------------------------
+!.dev/
+
+## --- IDE ------------------------------------------------
 !.zed/
 !.vscode/
 
-## Code Files
+## --- Code Files -----------------------------------------
 !source/
 !README.md
 
-## Configurations
+## --- Configurations -------------------------------------
 !package.json
 !pnpm-workspace.yaml
 
-## Generated
+## --- Generated ------------------------------------------
 !pnpm-lock.yaml

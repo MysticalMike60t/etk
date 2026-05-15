@@ -46,6 +46,10 @@
 *.dll                          non-human-readable
 *.deb                          non-human-readable
 *.rpm                          non-human-readable
+*.zip                          non-human-readable
+*.xpi                          non-human-readable
+*.rar                          non-human-readable
+*.7z                           non-human-readable
 
 # --- Language Assignments --------------------------------
 ## --- Repository configuration/documentation files -------
@@ -57,6 +61,8 @@ LICENSE                        my-code default-encoding
 *.md                           my-code default-encoding  linguist-language=markdown diff=markdown
 ## --- Python Configurations ------------------------------
 .python-version                my-code legacy-encoding
+## --- PNPM -----------------------------------------------
+*pnpm*                         exclude-stats
 ## --- Sass -----------------------------------------------
 [attr]lang-sass                my-code working-tree-encoding=UTF-8 linguist-language=sass
 *.sass                         lang-sass

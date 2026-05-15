@@ -189,4 +189,51 @@
             padding-left: 20px !important;
         }
     }
+    #row-head-cells,
+    #row-head-cells th,
+    .MuiPaper-root {
+        background-color: vars.$background-color !important;
+    }
+
+    #row-head-cells th {
+        border-bottom-color: vars.$background-color-hover !important;
+        border-bottom-width: 1px !important;
+    }
+
+    #start_date_input > div:nth-child(1),
+    #end_date_input > div:nth-child(1) {
+        background-color: vars.$background-color !important;
+    }
+
+    #start_date_input
+        > div:nth-child(1)
+        > div:nth-child(1)
+        > fieldset:nth-child(3),
+    #end_date_input
+        > div:nth-child(1)
+        > div:nth-child(1)
+        > fieldset:nth-child(3) {
+        outline: none !important;
+        border: none !important;
+    }
+
+    #start_date_input_button,
+    #end_date_input_button {
+        background-color: vars.$background-color !important;
+        outline: 1px solid vars.$border-color !important;
+        cursor: pointer !important;
+        transition: 100ms ease-in-out background-color !important;
+        &:hover {
+            background-color: vars.$background-color-hover !important;
+        }
+    }
+
+    #session-apply-button {
+        border-radius: vars.$border-radius !important;
+        background-color: vars.$primary-color !important;
+        transition: 100ms ease-in-out background-color !important;
+        &:hover {
+            background-color: vars.$primary-color-hover !important;
+        }
+    }
 }
