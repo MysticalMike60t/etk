@@ -1,3 +1,9 @@
+/**
+ *
+ *
+ *
+ * @desc Build script that builds extension for Firefox and Chrome.
+ */
 // @ts-check
 import * as esbuild from "esbuild";
 import { mkdir, writeFile, copyFile, readdir, rm } from "node:fs/promises";
@@ -8,32 +14,61 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { zip } from "zip-a-folder";
 
+/**
+ * @type {{name: string, name_short: string, version: string, version_tag: string, description: string}}
+ */
 const METADATA = {
     name: "Edgenuity Toolkit",
     name_short: "ETK",
-    version: "2.1.2",
-    version_tag: "v2.1.2",
+    version: "2.1.3",
+    version_tag: "v2.1.3",
     description:
         "Persistent restyle and toolkit overlay for Edgenuity, applied across same-origin iframes and shadow roots.",
 };
 
+/**
+ * @type {?}
+ */
 const execFileAsync = promisify(execFile);
 
+/**
+ * @type {string}
+ */
 const __dirname = dirname(fileURLToPath(import.meta.url));
+/**
+ * @type {string}
+ */
 const ROOT = resolve(__dirname, "..");
 
+/**
+ * @type {string[]}
+ */
 const args = process.argv.slice(2);
+/**
+ * @type {boolean}
+ */
 const watch = args.includes("--watch");
+/**
+ * @type {string | undefined}
+ */
 const targetArg = args.find((a) => !a.startsWith("--"));
+/**
+ * @type {string[]}
+ */
 const targets = targetArg ? [targetArg] : ["chrome", "firefox"];
 
 /** @typedef {"chrome" | "firefox"} Target */
-
+/**
+ * @type {string[]}
+ */
 const RESTYLE_MATCHES = [
     "https://*.core.learn.edgenuity.com/*",
     "https://student.edgenuity.com/*",
     "https://auth.edgenuity.com/*",
 ];
+/**
+ * @type {string[]}
+ */
 const TOOLBAR_MATCHES = ["https://*.core.learn.edgenuity.com/player/*"];
 
 /** @type {(target: Target) => Record<string, unknown>} */
@@ -88,7 +123,7 @@ const buildManifest = (target) => {
             browser_specific_settings: {
                 gecko: {
                     id: `${METADATA.name_short.toLowerCase()}@MysticalMike60t`,
-                    strict_min_version: "115.0",
+                    strict_min_version: "2.1.3",
                     data_collection_permissions: {
                         required: ["none"],
                     },
@@ -102,6 +137,9 @@ const buildManifest = (target) => {
 
 /** @type {(target: Target) => Promise<void>} */
 const buildTarget = async (target) => {
+    /**
+     * @type {string}
+     */
     const outdir = join(ROOT, "dist", target);
 
     if (existsSync(outdir)) await rm(outdir, { recursive: true });
@@ -125,8 +163,14 @@ const buildTarget = async (target) => {
         join(outdir, "styles", "restyle.css"),
     ]);
 
+    /**
+     * @type {string}
+     */
     const iconsDir = join(ROOT, "public", "icons");
     if (existsSync(iconsDir)) {
+        /**
+         * @type {string}
+         */
         const destIcons = join(outdir, "icons");
         await mkdir(destIcons, { recursive: true });
         for (const file of await readdir(iconsDir)) {
@@ -134,8 +178,14 @@ const buildTarget = async (target) => {
         }
     }
 
+    /**
+     * @type {string}
+     */
     const backgroundsDir = join(ROOT, "public", "backgrounds");
     if (existsSync(backgroundsDir)) {
+        /**
+         * @type {string}
+         */
         const destBackgrounds = join(outdir, "backgrounds");
         await mkdir(destBackgrounds, { recursive: true });
         for (const file of await readdir(backgroundsDir)) {
@@ -173,6 +223,9 @@ const buildTarget = async (target) => {
         };
 
         if (watch) {
+            /**
+             * @type {?}
+             */
             const ctx = await esbuild.context(options);
             await ctx.watch();
             console.log(`[${target}] watching ${entry}...`);

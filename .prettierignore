@@ -6,6 +6,7 @@ LICENSE.xml
 .python-version
 .*ignore
 .editorconfig
+coverage/
 
 # INFO: Copied all content from "final" .gitignore
 # --- Ignore ----------------------------------------------

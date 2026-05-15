@@ -1,5 +1,6 @@
 {
     "$schema": "https://www.schemastore.org/prettierrc.json",
+    "plugins": ["prettier-plugin-toml"],
     "printWidth": 80,
     "tabWidth": 4,
     "useTabs": false,
@@ -9,7 +10,7 @@
     "jsxSingleQuote": false,
     "trailingComma": "es5",
     "bracketSpacing": true,
-    "bracketSameLine": false,
+    "bracketSameLine": true,
     "arrowParens": "always",
     "proseWrap": "preserve",
     "htmlWhitespaceSensitivity": "css",
@@ -53,7 +54,12 @@
         { "files": ["*.scss"], "options": { "parser": "scss" } },
         {
             "excludeFiles": ["README.md"],
-            "files": ["*.md", "README", "SECURITY", "CODE_OF_CONDUCT"],
+            "files": [
+                "*.md",
+                "README",
+                "SECURITY",
+                "CODE_OF_CONDUCT"
+            ],
             "options": { "parser": "markdown" }
         },
         {
@@ -77,10 +83,9 @@
         {
             "files": [
                 "*.toml",
-                ".tokeirc",
-                ".shellcheckrc",
                 "pyproject.toml",
-                ".editorconfig"
+                ".editorconfig",
+                ".tokeirc"
             ],
             "options": { "parser": "toml" }
         },
